@@ -92,7 +92,9 @@ Seeding only adds what is missing. It never overwrites edits, and it does not br
 
 ## Deploy to AWS
 
-The production design is one Drupal container on ECS Fargate behind CloudFront and AWS WAF, with RDS for MySQL, defined with AWS CDK in `infra/` and deployed by a manual GitHub Actions workflow. Drupal keeps all its state in the database, so unlike the WordPress edition there is no shared file storage. The image (`docker/`) is built and smoke-tested against MySQL in CI. See [docs/deployment-aws.md](docs/deployment-aws.md) for the architecture, caching, security, cost, and setup steps.
+**Live:** https://dlp9hw0zcp41x.cloudfront.net
+
+The production design is one Drupal container on ECS Fargate behind CloudFront and AWS WAF, with RDS for MySQL, defined with AWS CDK in `infra/` and deployed by a manual GitHub Actions workflow. Drupal keeps all its state in the database, so unlike the WordPress edition there is no shared file storage. The image (`docker/`) is built and smoke-tested against MySQL in CI on every push; deploying is a manual `gh workflow run deploy.yml`. See [docs/deployment-aws.md](docs/deployment-aws.md) for the architecture, caching, security, cost, and setup steps.
 
 ```sh
 npm run infra:test     # assertions on the AWS stack

@@ -1,6 +1,8 @@
 # AWS deployment
 
-**Status: not deployed yet.** The stack synthesizes and its assertion tests pass. The production image is built and smoke-tested by CI, which has not run yet because the repository is not on GitHub.
+**Status: deployed** to us-east-1 on November 9, 2026, at **https://dlp9hw0zcp41x.cloudfront.net**, through the manual Deploy workflow. The first deployment succeeded on its first attempt in about 16 minutes.
+
+It shares the account with the WordPress edition, so it was deployed with `ACCOUNT_AUDITING=false`: that stack's GuardDuty detector and CloudTrail trail cover this one too. **If the WordPress stack is torn down, set `ACCOUNT_AUDITING` to `true` and redeploy**, or the account loses both.
 
 ## Recommendation
 
@@ -161,12 +163,26 @@ npx cdk destroy
 
 RDS leaves a final snapshot, and the CloudTrail bucket is kept (it empties itself after 90 days). Delete them by hand when finished. Delete `NaturedexDrupalGitHubOidc` last.
 
-## What has not been tested
+## What has been tested
 
-- **The production image itself.** It is built and smoke-tested only in CI, which has not run. Locally verified: the install path the image uses (`drupal-task.php install` against a read-only `settings.php`), the CloudFront header handling, the shared-cache headers, and the fixed session cookie.
-- **A deployment.** Nothing has been created in AWS.
+- **CI**, on every push: the full unit and browser suites on Linux, then the production image built on ARM and booted against MySQL 8.4 with TLS required. The smoke test installs Drupal, re-runs the install to prove it changes nothing, runs cron, checks every public route and blocked script, the cache headers, CSS aggregate generation, the CloudFront header handling (https links, a `Secure` `SSESSnaturedex` cookie, the visitor address recorded on the session), and a draft saved through the API.
+- **The live site**, after the first install:
+  - Public pages, the API, 404s, and blocked installer and update scripts return the expected codes; links are `https`; all 24 species are served.
+  - Pages come from CloudFront's cache with `max-age=0, public, s-maxage=300`, and carry the CSP and HSTS headers. Plain HTTP redirects to HTTPS.
+  - In a real browser: signing in sets a `Secure`, `HttpOnly` `SSESSnaturedex` cookie; a field note containing HTML was published through the Writing desk (passing the WAF's body rules), appeared to visitors with the HTML shown as text, and was deleted; Drupal's admin opens.
+
+### What the first runs found
+
+| Problem | Cause | Fix |
+| --- | --- | --- |
+| Links used `http` behind CloudFront | Drupal builds its request before loading `settings.php`, so changing `$_SERVER` there came too late | A middleware updates the request before the page cache |
+| A republished species looked stale in one browser test, on CI only | Drupal's page cache uses the second a page was cached as its `ETag`; a page cached twice in one second revalidates as unchanged | Check as a newly arriving visitor |
+
+### What has not been tested
+
 - The WAF rate limits, because triggering them would block the tester's address.
 - A restore from backup.
+- Manual accessibility checks, recorded in [accessibility.md](accessibility.md).
 
 ## Sources
 

@@ -21,7 +21,7 @@ This edition is one side of the exercise in the original project's [docs/compari
 | Cache invalidation | Not applicable | 5-minute shared cache at the CDN | Cache tags clear affected pages on save |
 | Without JavaScript | Not a goal | Guide, entries, and journal readable | Guide, entries, and journal readable |
 | Local runtime | FrankenPHP binary | PHP-WASM through Playground | FrankenPHP binary and SQLite |
-| Deployment | Hosted copy, not Drupal | AWS: ECS, RDS, EFS, CloudFront | AWS: ECS, RDS, CloudFront (designed, not yet deployed) |
+| Deployment | Hosted copy, not Drupal | AWS: ECS, RDS, EFS, CloudFront | AWS: ECS, RDS, CloudFront |
 | Shared file storage | Not applicable | EFS for uploads | None; all state is in the database |
 | Edge cache bypass for editors | Not applicable | Fixed `COOKIEHASH` | Fixed session cookie name |
 
@@ -59,9 +59,10 @@ Measured November 9, 2026, on Drupal 11.4.11, FrankenPHP 1.13.0 (PHP 8.5, Intel 
 | Automated tests | Passed |
 | --- | ---: |
 | Unit (Vitest), including PHP/TypeScript format parity | 22 of 22 |
-| Browser, API, accessibility (Playwright) | 32 of 32 |
+| Browser, API, accessibility (Playwright) | 32 of 32 (macOS and Linux CI) |
 | AWS stack (CDK assertions) | 28 of 28 |
-| Production image on MySQL (smoke test) | Not run yet; runs in CI |
+| Production image on MySQL (smoke test, CI) | Passed |
+| Live site checks after deployment | Passed |
 
 The browser suite includes the first version's scenarios as adapted for the WordPress edition. New here: Drupal's node form and the desk round-tripping one body, a species correction reaching cached visitor pages, unpublishing a referenced species, role checks for contributors and readers, CSRF and origin checks, revisions on every save, sign-in and not-found accessibility scans, and the site without JavaScript.
 
