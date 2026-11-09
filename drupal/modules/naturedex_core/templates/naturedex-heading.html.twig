@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * The page heading.
+ *
+ * Available variables:
+ * - heading: crumb, eyebrow, title, description, and stamp (an icon name).
+ */
+#}
+{% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
+<div class="page-heading">
+  <div>
+    <p class="eyebrow"><span class="tiny-cross" aria-hidden="true">✦</span> {{ heading.eyebrow }}</p>
+    <h1>{{ heading.title }}</h1>
+    {% if heading.description %}
+      <p class="page-description">{{ heading.description }}</p>
+    {% endif %}
+  </div>
+  {% if heading.stamp %}
+    <div class="heading-stamp">
+      {{ nd.icon(heading.stamp, 22) }}
+      <span>EST. 2026<br><strong>STAY CURIOUS</strong></span>
+    </div>
+  {% endif %}
+</div>
+<p class="status-message" role="status" data-site-notice></p>

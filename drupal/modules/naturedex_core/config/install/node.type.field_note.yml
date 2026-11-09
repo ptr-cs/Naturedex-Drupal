@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Field note
+type: field_note
+description: A field journal article. Written in the Writing desk or here.
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

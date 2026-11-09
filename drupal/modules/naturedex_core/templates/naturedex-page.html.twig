@@ -1,0 +1,17 @@
+{#
+/**
+ * @file
+ * About, and any other page written in Drupal.
+ *
+ * Available variables:
+ * - body: The rendered body.
+ * - deer: The white-tailed deer's record on About, otherwise null.
+ * - edit_url: The Drupal edit form, for people who may edit it.
+ */
+#}
+{% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
+<div class="about-content panel">
+  {% if deer %}{{ nd.sprite(deer, 150, 'Original pixel illustration of a white-tailed deer') }}{% endif %}
+  {{ body }}
+  {% if edit_url %}<p><a class="text-link" href="{{ edit_url }}">Edit this page in Drupal</a></p>{% endif %}
+</div>

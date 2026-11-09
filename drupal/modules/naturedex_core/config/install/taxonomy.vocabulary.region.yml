@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Regions
+vid: region
+description: Virginia regions shown on the map. Each holds its map position and color.
+weight: 0
+new_revision: false

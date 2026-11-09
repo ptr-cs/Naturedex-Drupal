@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - naturedex_core
+  theme:
+    - naturedex
+id: naturedex_heading
+theme: naturedex
+region: heading
+weight: 0
+provider: null
+plugin: naturedex_heading
+settings:
+  id: naturedex_heading
+  label: 'Page heading'
+  label_display: '0'
+  provider: naturedex_core
+visibility: {  }

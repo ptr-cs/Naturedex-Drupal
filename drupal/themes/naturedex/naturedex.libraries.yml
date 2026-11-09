@@ -1,0 +1,7 @@
+# Built from /frontend by scripts/build-frontend.mjs.
+app:
+  css:
+    theme:
+      assets/dist/app.css: { minified: true }
+  js:
+    assets/dist/app.js: { minified: true, attributes: { defer: true } }

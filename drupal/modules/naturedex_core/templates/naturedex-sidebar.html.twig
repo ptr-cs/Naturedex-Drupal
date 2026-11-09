@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * The app sidebar: brand, navigation, collection progress, and footer links.
+ *
+ * Available variables:
+ * - items: Navigation entries with label, url, icon, active, and route.
+ * - total: The number of published species.
+ */
+#}
+{% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
+<a href="{{ path('<front>') }}" class="brand" aria-label="Naturedex home">
+  <span class="brand-mark" aria-hidden="true">
+    <svg viewBox="0 0 32 32"><path d="M5 15h6V9h6V5h11v11h-5v6h-7v6h-5v-7H5z" fill="currentColor"/><path d="M12 19h5v-5h6" fill="none" stroke="#f4f2e6" stroke-width="3"/></svg>
+  </span>
+  <span>naturedex<span class="brand-period">.</span></span>
+</a>
+<p class="edition-label">VIRGINIA EDITION <span>01</span></p>
+<div class="sidebar-rule"></div>
+<span class="nav-label">YOUR FIELD STATION</span>
+<nav aria-label="Main navigation">
+  {% for item in items %}
+    <a href="{{ item.url }}" class="nav-item{{ item.active ? ' active' }}"{% if item.active %} aria-current="page"{% endif %}>
+      {{ nd.icon(item.icon) }}
+      <span>{{ item.label }}</span>
+      {% if item.route == 'naturedex.guide' %}
+        <span class="nav-count">{{ total }}</span>
+      {% elseif item.route == 'naturedex.editor' %}
+        <span class="nav-local">EDITORS</span>
+      {% endif %}
+    </a>
+  {% endfor %}
+</nav>
+<div class="sidebar-collection js-only">
+  <span class="eyebrow">YOUR COLLECTION</span>
+  <div class="collection-count">
+    <span data-collection-count>00</span>
+    <small>/ {{ total }} discovered</small>
+  </div>
+  <div class="progress-track"><span data-collection-progress style="width: 0%"></span></div>
+  <a href="{{ path('<front>', {}, {query: {collection: 1}}) }}" class="collection-link">
+    View your discoveries {{ nd.icon('arrow', 14) }}
+  </a>
+</div>
+<div class="sidebar-bottom">
+  <div class="little-grass" aria-hidden="true">♧ ♧ ♧</div>
+  <p>A little curiosity.<br>A whole wild world.</p>
+  <a href="/about">{{ nd.icon('info', 15) }} About this field guide</a>
+  <span class="local-indicator"><span></span>POWERED BY DRUPAL</span>
+</div>

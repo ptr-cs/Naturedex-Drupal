@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * @file
+ * Site configuration and roles for Naturedex.
+ */
+
+declare(strict_types=1);
+
+use Drupal\user\Entity\Role;
+
+/**
+ * Implements hook_install().
+ */
+function naturedex_core_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+  \Drupal::configFactory()->getEditable('system.site')
+    ->set('page.front', '/guide')
+    ->set('page.404', '/naturedex/not-found')
+    ->set('page.403', '/naturedex/access-denied')
+    ->save();
+  // Accounts are created by an administrator; the public cannot register.
+  \Drupal::configFactory()->getEditable('user.settings')->set('register', 'admin_only')->save();
+  \Drupal::configFactory()->getEditable('node.settings')->set('use_admin_theme', TRUE)->save();
+
+  $roles = [
+    'contributor' => [
+      'Contributor',
+      [
+        'access content',
+        'use naturedex writing desk',
+        'create field_note content',
+        'edit own field_note content',
+        'delete own field_note content',
+        'view own unpublished content',
+        'use text format field_note_text',
+        'view the administration theme',
+      ],
+    ],
+    'editor' => [
+      'Editor',
+      [
+        'access content',
+        'access content overview',
+        'access taxonomy overview',
+        'access toolbar',
+        'administer node published status',
+        'use naturedex writing desk',
+        'create field_note content',
+        'edit any field_note content',
+        'delete any field_note content',
+        'revert field_note revisions',
+        'view field_note revisions',
+        'create species content',
+        'edit any species content',
+        'delete any species content',
+        'view species revisions',
+        'edit any page content',
+        'view page revisions',
+        'use text format field_note_text',
+        'view the administration theme',
+        'create terms in journal_category',
+        'edit terms in journal_category',
+        'edit terms in region',
+        'edit terms in animal_group',
+      ],
+    ],
+  ];
+  foreach ($roles as $id => [$label, $permissions]) {
+    $role = Role::load($id) ?? Role::create(['id' => $id, 'label' => $label]);
+    foreach ($permissions as $permission) {
+      $role->grantPermission($permission);
+    }
+    $role->save();
+  }
+}

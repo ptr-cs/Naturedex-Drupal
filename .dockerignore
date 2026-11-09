@@ -1,0 +1,11 @@
+**
+!package.json
+!package-lock.json
+!scripts/build-frontend.mjs
+!scripts/drupal-task.php
+!frontend
+!data
+!drupal
+drupal/themes/naturedex/assets/dist
+drupal/local.services.yml
+!docker

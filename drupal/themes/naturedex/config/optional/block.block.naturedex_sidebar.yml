@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - naturedex_core
+  theme:
+    - naturedex
+id: naturedex_sidebar
+theme: naturedex
+region: sidebar
+weight: 0
+provider: null
+plugin: naturedex_sidebar
+settings:
+  id: naturedex_sidebar
+  label: 'Sidebar'
+  label_display: '0'
+  provider: naturedex_core
+visibility: {  }

@@ -1,0 +1,10 @@
+{
+  "app": "npx tsx bin/app.ts",
+  "context": {
+    "alarmEmail": "",
+    "domainName": "",
+    "hostedZoneId": "",
+    "hostedZoneName": "",
+    "accountAuditing": "true"
+  }
+}

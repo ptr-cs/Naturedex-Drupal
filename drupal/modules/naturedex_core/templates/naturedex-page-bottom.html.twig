@@ -1,0 +1,15 @@
+{#
+/**
+ * @file
+ * Inert data and icon templates for the frontend script.
+ *
+ * Available variables:
+ * - data: Species and region records as JSON, escaped for a script element.
+ */
+#}
+{% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
+<template data-dialog-close-icon>{{ nd.icon('close') }}</template>
+<template data-seen-icon-eye>{{ nd.icon('eye', 17) }}</template>
+<template data-seen-icon-check>{{ nd.icon('check', 17) }}</template>
+<template data-seen-card-check>{{ nd.icon('check', 13) }}</template>
+<script type="application/json" id="naturedex-data">{{ data }}</script>

@@ -1,0 +1,54 @@
+{#
+/**
+ * @file
+ * A full species entry. Rendered on the species page and inside the <template>
+ * the frontend clones into a dialog, so the two can never drift apart.
+ *
+ * Available variables:
+ * - species: A species record.
+ * - regions: All region records, for display names.
+ */
+#}
+{% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
+{% set names = {} %}
+{% for region in regions %}{% set names = names|merge({(region.id): region.shortName}) %}{% endfor %}
+<div class="detail-hero">
+  <div class="detail-sprite">
+    {{ nd.sprite(species, 200, 'Pixel illustration of ' ~ species.name) }}
+    <span class="detail-number">{{ nd.dex(species.dexNumber) }}</span>
+  </div>
+  <div>
+    <span class="group-badge group-{{ species.group|lower|clean_class }}">{{ species.group }}</span>
+    <h2>{{ species.name }}</h2>
+    <p class="latin-name">{{ species.scientificName }}</p>
+    <button type="button" class="primary-button js-only" data-seen-toggle data-seen-detail aria-pressed="false" aria-label="Mark as seen: {{ species.name }}" data-species-id="{{ species.id }}">
+      <span data-seen-icon>{{ nd.icon('eye', 17) }}</span>
+      <span data-seen-label>Mark as seen</span>
+    </button>
+  </div>
+</div>
+<p class="detail-description">{{ species.description }}</p>
+<dl class="stat-grid">
+  <div><dt>ACTIVE HOURS</dt><dd>{{ species.activity }}</dd></div>
+  <div><dt>DIET</dt><dd>{{ species.diet|join(', ') }}</dd></div>
+  <div><dt>LENGTH</dt><dd>{{ nd.range(species.size.lengthCm, 'cm') }}</dd></div>
+  <div><dt>WEIGHT</dt><dd>{{ nd.range(species.size.weightKg, 'kg') }}</dd></div>
+  <div class="wide-stat"><dt>HABITAT</dt><dd>{{ species.habitats|join(' · ') }}</dd></div>
+</dl>
+{% if species.size.note %}
+  <p class="fine-print">{{ species.size.note }}</p>
+{% endif %}
+<h3 class="detail-subtitle">Where to explore</h3>
+<div class="detail-regions">
+  {% for id in species.regionIds %}
+    <span>{{ names[id] ?? id }}</span>
+  {% endfor %}
+</div>
+<p class="fine-print">{{ species.regionNote }}</p>
+<div class="source-links">
+  <span class="eyebrow">FIELD REFERENCES</span>
+  {% for url in species.sourceURLs %}
+    {% set host = url|split('/')[2]|default(url)|replace({'www.': ''}) %}
+    <a href="{{ url }}" target="_blank" rel="noreferrer">{{ host }} · Source {{ loop.index }} ↗</a>
+  {% endfor %}
+</div>

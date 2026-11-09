@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_map_y
+    - taxonomy.vocabulary.region
+id: taxonomy_term.region.field_map_y
+field_name: field_map_y
+entity_type: taxonomy_term
+bundle: region
+label: Map Y
+description: Vertical pin position on the 680 × 400 map.
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 400
+  prefix: ''
+  suffix: ''
+field_type: float

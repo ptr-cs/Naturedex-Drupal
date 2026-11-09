@@ -1,0 +1,458 @@
+[
+  {
+    "id": "white-tailed-deer",
+    "description": "The raised white tail gives a small alert flick; the eye briefly closes.",
+    "duration": 5.8,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [5, 20, 8, 23],
+          "dx": -1,
+          "dy": 0
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [5, 20, 8, 23],
+          "dx": -1,
+          "dy": 0
+        },
+        {
+          "type": "blink",
+          "bounds": [36, 15, 37, 16],
+          "color": "#c8975d"
+        },
+        {
+          "type": "paint",
+          "bounds": [36, 16, 37, 16],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "black-bear",
+    "description": "One rounded ear settles a pixel before a slow blink.",
+    "duration": 6.2,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [30, 13, 34, 15],
+          "dx": 0,
+          "dy": 1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [30, 13, 34, 15],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "blink",
+          "bounds": [38, 21, 39, 22],
+          "color": "#373d3a"
+        },
+        {
+          "type": "paint",
+          "bounds": [38, 22, 39, 22],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "red-fox",
+    "description": "The white-tipped brush flicks upward while the fox gives a quick blink.",
+    "duration": 5.2,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [2, 16, 8, 22],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [2, 16, 8, 22],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "blink",
+          "bounds": [37, 17, 38, 18],
+          "color": "#e29048"
+        },
+        {
+          "type": "paint",
+          "bounds": [37, 18, 38, 18],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "river-otter",
+    "description": "The narrow tail tip sweeps gently upward, followed by a blink.",
+    "duration": 5.6,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [3, 30, 8, 33],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [3, 30, 8, 33],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "blink",
+          "bounds": [37, 20, 38, 21],
+          "color": "#9b7c56"
+        },
+        {
+          "type": "paint",
+          "bounds": [37, 21, 38, 21],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "northern-cardinal",
+    "description": "The pointed tail feathers make a small upward flick; the bird blinks.",
+    "duration": 5.1,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [7, 35, 12, 40],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [7, 35, 12, 40],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "blink",
+          "bounds": [33, 16, 34, 17],
+          "color": "#df6249"
+        },
+        {
+          "type": "paint",
+          "bounds": [33, 17, 34, 17],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "bald-eagle",
+    "description": "The outer wing feathers settle a pixel while the head stays steady, then the eye closes.",
+    "duration": 6,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [1, 11, 8, 18],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "move",
+          "bounds": [39, 11, 44, 18],
+          "dx": 0,
+          "dy": 1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [1, 11, 8, 18],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "move",
+          "bounds": [39, 11, 44, 18],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "blink",
+          "bounds": [25, 17, 26, 18],
+          "color": "#fff6d9"
+        },
+        {
+          "type": "paint",
+          "bounds": [25, 18, 26, 18],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "great-blue-heron",
+    "description": "A tiny crest twitch and a watchful blink preserve the still hunting posture.",
+    "duration": 6.4,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [18, 8, 20, 10],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [18, 8, 20, 10],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "blink",
+          "bounds": [30, 7, 31, 8],
+          "color": "#cbd2c5"
+        },
+        {
+          "type": "paint",
+          "bounds": [30, 8, 31, 8],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "pileated-woodpecker",
+    "description": "The red crest tilts slightly without moving the gripping feet; the bird blinks.",
+    "duration": 5.5,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [24, 5, 29, 8],
+          "dx": 1,
+          "dy": 0
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [24, 5, 29, 8],
+          "dx": 1,
+          "dy": 0
+        },
+        {
+          "type": "blink",
+          "bounds": [31, 13, 32, 14],
+          "color": "#38443c"
+        },
+        {
+          "type": "paint",
+          "bounds": [31, 14, 32, 14],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "woodland-box-turtle",
+    "description": "A front foot shifts under the domed shell before a slow blink.",
+    "duration": 6.5,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [28, 34, 31, 36],
+          "dx": 1,
+          "dy": 0
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [28, 34, 31, 36],
+          "dx": 1,
+          "dy": 0
+        },
+        {
+          "type": "blink",
+          "bounds": [38, 25, 39, 26],
+          "color": "#b6a66b"
+        },
+        {
+          "type": "paint",
+          "bounds": [38, 26, 39, 26],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "central-ratsnake",
+    "description": "A small tongue retraction and fork flick; the snake keeps its lidless eye open.",
+    "duration": 5,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [43, 30, 47, 32],
+          "dx": -1,
+          "dy": 0
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [43, 30, 47, 32],
+          "dx": -1,
+          "dy": 0
+        },
+        {
+          "type": "paint",
+          "bounds": [45, 30, 45, 30],
+          "color": "#bd7062"
+        },
+        {
+          "type": "paint",
+          "bounds": [45, 32, 45, 32],
+          "color": "#bd7062"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "five-lined-skink",
+    "description": "The blue tail tip gives a small upward twitch, then the lizard blinks.",
+    "duration": 5.3,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [2, 32, 9, 36],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [2, 32, 9, 36],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "blink",
+          "bounds": [39, 18, 40, 19],
+          "color": "#9b8d57"
+        },
+        {
+          "type": "paint",
+          "bounds": [39, 19, 40, 19],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "painted-turtle",
+    "description": "One tucked foot shifts a pixel while the striped shell remains still, followed by a blink.",
+    "duration": 6.1,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [12, 32, 16, 33],
+          "dx": 1,
+          "dy": 0
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [12, 32, 16, 33],
+          "dx": 1,
+          "dy": 0
+        },
+        {
+          "type": "blink",
+          "bounds": [40, 25, 41, 26],
+          "color": "#77935f"
+        },
+        {
+          "type": "paint",
+          "bounds": [40, 26, 41, 26],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  }
+]

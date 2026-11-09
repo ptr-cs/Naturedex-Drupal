@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * A field guide card. The title is a real link until the frontend upgrades it
+ * to a dialog button; without JavaScript it leads to the species page.
+ *
+ * Available variables:
+ * - species: A species record.
+ */
+#}
+{% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
+{% set size = species.size.lengthCm ? nd.range(species.size.lengthCm, 'cm') : species.habitats|first %}
+<article class="species-card" data-species-card="{{ species.id }}">
+  <div class="card-topline">
+    <span class="dex-number">{{ nd.dex(species.dexNumber) }}</span>
+    <button type="button" class="seen-toggle js-only" data-seen-toggle aria-pressed="false" aria-label="Mark {{ species.name }} as seen"><span></span></button>
+  </div>
+  <div class="species-open">
+    <div class="sprite-stage">
+      {{ nd.sprite(species, 106, '', true) }}
+      <span class="sprite-shadow"></span>
+    </div>
+    <h3><a class="species-title" href="{{ species.url }}" aria-label="View {{ species.name }}">{{ species.name }}</a></h3>
+    <p class="latin-name">{{ species.scientificName }}</p>
+    <div class="card-statline">
+      <span>{{ species.activity }}</span>
+      <span>{{ size }}</span>
+    </div>
+    <span class="group-badge group-{{ species.group|lower|clean_class }}"><span class="badge-dot"></span>{{ species.group }}</span>
+    <span class="card-arrow" aria-hidden="true">↗</span>
+  </div>
+</article>

@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * A species' own address, used for sharing and by visitors without JavaScript.
+ *
+ * Available variables:
+ * - species: The species record.
+ * - regions: All region records.
+ * - edit_url: The Drupal edit form, for people who may edit it.
+ */
+#}
+<a href="{{ path('<front>') }}" class="text-link">← Back to the field guide</a>
+{% if edit_url %} <a class="text-link" href="{{ edit_url }}">Edit in Drupal</a>{% endif %}
+<div class="species-page panel">
+  {% include '@naturedex_core/naturedex-species-detail.html.twig' with {species: species, regions: regions} only %}
+</div>

@@ -1,0 +1,73 @@
+# Lets GitHub Actions deploy without stored AWS keys. Deploy this once, by hand:
+#
+#   aws cloudformation deploy --template-file infra/github-oidc.yaml \
+#     --stack-name NaturedexDrupalGitHubOidc --capabilities CAPABILITY_NAMED_IAM \
+#     --parameter-overrides Repository=SUBJECT [ExistingProviderArn=ARN]
+#
+# SUBJECT must match the repository's token exactly. Newer repositories use
+# immutable subjects that include IDs, such as owner@123/name@456. Find it with:
+#
+#   gh api repos/OWNER/NAME/actions/oidc/customization/sub --jq .sub_claim_prefix
+#
+# and drop the leading "repo:".
+#
+# An account has only one GitHub OIDC provider. If another stack (such as the
+# WordPress edition's NaturedexGitHubOidc) already created it, pass its ARN:
+#
+#   aws iam list-open-id-connect-providers
+AWSTemplateFormatVersion: '2010-09-09'
+Description: GitHub Actions deploy role for Naturedex Drupal
+
+Parameters:
+  Repository:
+    Type: String
+    Description: The only repository allowed to deploy, as it appears in its OIDC subject
+  ExistingProviderArn:
+    Type: String
+    Default: ''
+    Description: ARN of an existing token.actions.githubusercontent.com provider, if any
+
+Conditions:
+  CreateProvider: !Equals [!Ref ExistingProviderArn, '']
+
+Resources:
+  GitHubProvider:
+    Type: AWS::IAM::OIDCProvider
+    Condition: CreateProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList:
+        - sts.amazonaws.com
+
+  DeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: naturedex-drupal-github-deploy
+      MaxSessionDuration: 3600
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !If [CreateProvider, !Ref GitHubProvider, !Ref ExistingProviderArn]
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                # Only the main branch of this repository, so pull requests
+                # and forks can't deploy.
+                token.actions.githubusercontent.com:sub: !Sub repo:${Repository}:ref:refs/heads/main
+      Policies:
+        - PolicyName: use-cdk-roles
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              # CDK does the work through its bootstrap roles, so this role
+              # needs no direct access to anything else.
+              - Effect: Allow
+                Action: sts:AssumeRole
+                Resource: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-*
+
+Outputs:
+  DeployRoleArn:
+    Value: !GetAtt DeployRole.Arn

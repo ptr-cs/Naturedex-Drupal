@@ -1,0 +1,15 @@
+name: Naturedex core
+type: module
+description: 'Content model, page routes, Writing desk API, and seed data for the Naturedex field guide.'
+package: Naturedex
+core_version_requirement: ^11.3
+dependencies:
+  - drupal:block
+  - drupal:filter
+  - drupal:link
+  - drupal:node
+  - drupal:options
+  - drupal:path
+  - drupal:path_alias
+  - drupal:taxonomy
+  - drupal:text

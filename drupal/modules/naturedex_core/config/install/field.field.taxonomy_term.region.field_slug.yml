@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_slug
+    - taxonomy.vocabulary.region
+id: taxonomy_term.region.field_slug
+field_name: field_slug
+entity_type: taxonomy_term
+bundle: region
+label: ID
+description: 'Lowercase words separated by hyphens, such as valley. Species and filters refer to it.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_length_min
+    - node.type.species
+id: node.species.field_length_min
+field_name: field_length_min
+entity_type: node
+bundle: species
+label: Length from (cm)
+description: Leave both length fields empty when no source supports a range.
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

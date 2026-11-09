@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Journal categories
+vid: journal_category
+description: Categories for field notes.
+weight: 0
+new_revision: false

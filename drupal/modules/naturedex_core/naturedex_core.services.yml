@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+  Drupal\naturedex_core\Records: ~
+  Drupal\naturedex_core\PageContext: ~
+  Drupal\naturedex_core\Seeder: ~
+  Drupal\naturedex_core\Routing\RouteSubscriber:
+    tags:
+      - { name: event_subscriber }
+  Drupal\naturedex_core\EventSubscriber\SharedCacheSubscriber:
+    tags:
+      - { name: event_subscriber }

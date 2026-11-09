@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - naturedex_core
+name: Field note text
+format: field_note_text
+weight: -10
+filters:
+  naturedex_field_note:
+    id: naturedex_field_note
+    provider: naturedex_core
+    status: true
+    weight: 0
+    settings: {  }

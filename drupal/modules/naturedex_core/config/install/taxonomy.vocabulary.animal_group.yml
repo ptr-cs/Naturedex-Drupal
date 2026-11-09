@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Animal groups
+vid: animal_group
+description: 'Mammals, birds, reptiles, and the other groups that organize the field guide.'
+weight: 0
+new_revision: false

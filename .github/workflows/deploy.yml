@@ -1,0 +1,42 @@
+name: Deploy
+
+# Manual on purpose: deploying spends money, so a person decides when it happens.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to AWS
+    # ARM, because the image is built here for ARM Fargate tasks.
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 55
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: infra/package-lock.json
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+      - run: npm ci
+      # Repository variables, so the account's choices live outside the code.
+      - name: Choose context
+        run: |
+          echo "CONTEXT=-c accountAuditing=${{ vars.ACCOUNT_AUDITING || 'true' }} -c alarmEmail=${{ vars.ALARM_EMAIL }}" >> "$GITHUB_ENV"
+      - run: npx cdk diff --no-notices $CONTEXT
+      - run: npx cdk deploy --require-approval never --no-notices --outputs-file outputs.json $CONTEXT
+      - run: cat outputs.json

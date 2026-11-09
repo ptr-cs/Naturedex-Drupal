@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.field_note
+id: node.field_note.status
+field_name: status
+entity_type: node
+bundle: field_note
+label: Published
+description: 'Unpublished notes are drafts, visible only to their authors and editors.'
+required: false
+translatable: true
+default_value:
+  - value: 0
+default_value_callback: ''
+settings:
+  on_label: Published
+  off_label: Draft
+field_type: boolean

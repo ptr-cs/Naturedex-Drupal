@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * The document. "js" replaces "no-js" before first paint, so content that
+ * only works with the script stays hidden without it.
+ */
+#}
+<!DOCTYPE html>
+<html{{ html_attributes.addClass('no-js') }}>
+  <head>
+    <head-placeholder token="{{ placeholder_token }}">
+    <meta name="description" content="{{ naturedex_description }}">
+    <meta name="theme-color" content="#254b3b">
+    <link rel="icon" type="image/svg+xml" href="/{{ directory }}/assets/favicon.svg">
+    <link rel="preload" href="/{{ directory }}/assets/fonts/Silkscreen-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <title>{{ naturedex_title ?: head_title|safe_join(' · ') }}</title>
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <css-placeholder token="{{ placeholder_token }}">
+    <js-placeholder token="{{ placeholder_token }}">
+  </head>
+  <body{{ attributes.addClass('view-' ~ naturedex_view|default('page')|clean_class) }}>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    {{ page_top }}
+    {{ page }}
+    {{ page_bottom }}
+    <js-bottom-placeholder token="{{ placeholder_token }}">
+  </body>
+</html>

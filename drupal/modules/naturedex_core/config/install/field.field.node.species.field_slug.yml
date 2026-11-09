@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_slug
+    - node.type.species
+id: node.species.field_slug
+field_name: field_slug
+entity_type: node
+bundle: species
+label: ID
+description: 'Lowercase words separated by hyphens. The entry’s address is /species/ followed by this ID, and field notes refer to it.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

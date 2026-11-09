@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_slug
+    - node.type.page
+id: node.page.field_slug
+field_name: field_slug
+entity_type: node
+bundle: page
+label: Address
+description: 'The page’s address after the first slash, such as about.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,21 @@
+name: Naturedex
+type: theme
+description: 'The Naturedex field guide: an original handheld-inspired look. Its page content comes from the naturedex_core module.'
+package: Naturedex
+core_version_requirement: ^11.3
+base theme: false
+libraries:
+  - naturedex/app
+libraries-override:
+  # The theme's stylesheet covers what system/base provides.
+  system/base: false
+regions:
+  sidebar: Sidebar
+  topbar: 'Top bar'
+  heading: Heading
+  content: Content
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+# No "favicon": the theme links its own SVG icon in html.html.twig.
+features:
+  - logo

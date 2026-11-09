@@ -1,0 +1,69 @@
+{#
+/**
+ * @file
+ * The Virginia region map.
+ *
+ * Available variables:
+ * - regions: Region records.
+ * - species: Species records, for the per-region counts.
+ * - outline: The state outline as an SVG path.
+ * - large: Whether the map leads the page.
+ */
+#}
+<section class="region-panel{{ large ? ' region-panel-large' }}" aria-labelledby="region-map-title">
+  <div class="panel-heading">
+    <div>
+      <span class="eyebrow">YOUR NEXT DISCOVERY</span>
+      <h2 id="region-map-title">A little closer to the wild.</h2>
+    </div>
+    <span class="map-mini-icon" aria-hidden="true">↗</span>
+  </div>
+  <div class="map-canvas">
+    <span class="map-coordinate map-coordinate-top">39° N / 83° W</span>
+    <svg viewBox="0 0 680 400" role="img" aria-label="Virginia outline with four selectable regional habitat areas. Use the region buttons to explore associated animals.">
+      <defs>
+        <pattern id="map-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#849d79" stroke-opacity=".15" stroke-width="1"/></pattern>
+        <pattern id="forest" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M8 6h6v5h4v5H4v-5h4z" fill="#547d55" opacity=".2"/><path d="M10 16h2v5h-2z" fill="#547d55" opacity=".3"/></pattern>
+        <clipPath id="virginia-clip"><path d="{{ outline }}"/></clipPath>
+      </defs>
+      <rect width="680" height="400" fill="url(#map-grid)"/>
+      <text x="590" y="164" text-anchor="middle" class="map-water-label">CHESAPEAKE</text>
+      <text x="590" y="180" text-anchor="middle" class="map-water-label">BAY</text>
+      <path d="{{ outline }}" transform="translate(0 7)" fill="#a0b393" opacity=".45"/>
+      <path d="{{ outline }}" fill="#b7ce92" stroke="#637e50" stroke-width="2.5" stroke-linejoin="round"/>
+      <g clip-path="url(#virginia-clip)">
+        <path d="M0 0h300L190 400H0Z" fill="#8eaf79"/>
+        <path d="M300 0h80L270 400h-80Z" fill="#c5ce91"/>
+        <path d="M470 0h210v400H390Z" fill="#d2d3a4"/>
+        <path d="M0 0h300L190 400H0Z" fill="url(#forest)"/>
+        <path d="M300 0h80L270 400h-80Z" fill="url(#forest)" opacity=".6"/>
+        <path d="M338 186l32 35 42-8 30 31 40 8 36 38 64 11" stroke="#79a9a7" stroke-width="4" fill="none" stroke-linejoin="round"/>
+        <path d="M409 132l24 48 45 11 40 35 46 1" stroke="#79a9a7" stroke-width="3" fill="none"/>
+        {% for i in 0..6 %}
+          <path d="M{{ 176 + i * 13 }} {{ 268 - i * 14 }}l10-16 10 16z" fill="#567f5c" opacity=".5"/>
+        {% endfor %}
+      </g>
+      <path d="{{ outline }}" fill="none" stroke="#637e50" stroke-width="2.5" stroke-linejoin="round"/>
+      <text x="178" y="348" class="map-state-label">NORTH CAROLINA</text>
+      <text x="200" y="105" class="map-state-label">WEST VIRGINIA</text>
+      <g transform="translate(631 140)" fill="#50664f"><path d="M0-15l-6 19 6-4 6 4z"/><text x="-4" y="-23" font-size="11">N</text></g>
+    </svg>
+    {% for region in regions %}
+      <button type="button" class="map-marker js-only" data-region="{{ region.id }}" style="left: {{ region.x / 680 * 100 }}%; top: {{ region.y / 400 * 100 }}%" aria-label="{{ region.shortName }}: {{ region.name }}" aria-pressed="false">
+        <span class="marker-square"></span>
+        <span class="marker-label">{{ region.shortName }}</span>
+      </button>
+    {% endfor %}
+    <span class="map-coordinate map-coordinate-bottom">VIRGINIA, UNITED STATES</span>
+  </div>
+  <div class="map-legend js-only">
+    {% for region in regions %}
+      <button type="button" data-region="{{ region.id }}" aria-pressed="false">
+        <span style="background: {{ region.color }}"></span>
+        {{ region.shortName }}
+        <small>{{ species|filter(entry => region.id in entry.regionIds)|length }}</small>
+      </button>
+    {% endfor %}
+  </div>
+  <p class="map-caption">Select a region to explore its wildlife. Regional habitat associations are illustrative, not recorded sightings or complete species ranges.</p>
+</section>

@@ -1,0 +1,32 @@
+{
+  "name": "naturedex-drupal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run sprites:build && npm run check && npm run build:frontend",
+    "build:frontend": "node scripts/build-frontend.mjs",
+    "check": "tsc --noEmit",
+    "sprites:build": "node scripts/build-sprite-animations.mjs",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test --grep accessibility",
+    "verify": "npm run build && npm test && npm run test:e2e && npm run infra:test",
+    "infra:test": "npm --prefix infra test",
+    "infra:synth": "npm --prefix infra run synth"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^24.19.2",
+    "esbuild": "^0.28.2",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

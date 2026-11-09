@@ -1,0 +1,15 @@
+{#
+/**
+ * @file
+ * Inert copies of each entry for the frontend to open as dialogs.
+ *
+ * Available variables:
+ * - list: Species records.
+ * - regions: All region records.
+ */
+#}
+{% for entry in list %}
+  <template data-species-detail="{{ entry.id }}">
+    {% include '@naturedex_core/naturedex-species-detail.html.twig' with {species: entry, regions: regions} only %}
+  </template>
+{% endfor %}

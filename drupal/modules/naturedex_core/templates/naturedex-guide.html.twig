@@ -1,0 +1,103 @@
+{#
+/**
+ * @file
+ * The field guide layout, shared by the front page and the region map.
+ *
+ * Available variables:
+ * - species: Published species records in dex order.
+ * - regions: Region records, west to east.
+ * - groups: Animal group names.
+ * - recent: The two newest journal cards.
+ * - is_map: Whether the map leads the page.
+ * - cardinal: The northern cardinal's record, for the banner.
+ * - outline: The Virginia outline as an SVG path.
+ */
+#}
+{% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
+<section class="discovery-strip" aria-label="Field guide overview">
+  <div><span class="strip-icon">{{ nd.icon('book') }}</span><p><strong>{{ '%02d'|format(species|length) }}</strong><span>species to discover</span></p></div>
+  <div><span class="strip-icon">{{ nd.icon('leaf') }}</span><p><strong>{{ '%02d'|format(groups|length) }}</strong><span>animal groups</span></p></div>
+  <div><span class="strip-icon">{{ nd.icon('map') }}</span><p><strong>{{ '%02d'|format(regions|length) }}</strong><span>regions to explore</span></p></div>
+  <span class="strip-message">
+    THE BEST ADVENTURES<br><strong>START WITH A CLOSER LOOK.</strong>
+    {% if cardinal %}{{ nd.sprite(cardinal, 60) }}{% endif %}
+  </span>
+</section>
+<div class="guide-layout{{ is_map ? ' map-first' }}" data-guide>
+  <section class="species-section" aria-label="Virginia animal entries">
+    <div class="search-box js-only">
+      {{ nd.icon('search', 18) }}
+      <input type="search" aria-label="Search the field guide" placeholder="Search a name, species, or habitat…" data-guide-search>
+      <span class="search-hint" aria-hidden="true">⌕</span>
+    </div>
+    <div class="filter-row js-only">
+      <label class="group-select-label">
+        <span class="sr-only">Animal group</span>
+        <select data-guide-group>
+          <option value="All">All animals</option>
+          {% for group in groups %}
+            <option>{{ group }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <button type="button" class="filter-seen" data-guide-seen aria-pressed="false">{{ nd.icon('eye', 15) }} Discovered</button>
+      <label class="sort-label">
+        <span class="sr-only">Sort entries</span>
+        <select data-guide-sort>
+          <option value="number">Dex number</option>
+          <option value="name">A–Z</option>
+        </select>
+      </label>
+    </div>
+    <div class="region-filter" data-guide-region-chip hidden>
+      <span>{{ nd.icon('map', 14) }} <span data-guide-region-name></span></span>
+      <button type="button" data-guide-region-clear aria-label="Clear region filter">{{ nd.icon('close', 14) }}</button>
+    </div>
+    <div class="results-heading">
+      <h2 data-guide-title>THE VIRGINIA DEX</h2>
+      <span role="status" aria-live="polite" data-guide-count>{{ species|length }} entries</span>
+    </div>
+    <div class="species-grid" data-guide-grid>
+      {% for entry in species %}
+        {% include '@naturedex_core/naturedex-species-card.html.twig' with {species: entry} only %}
+      {% endfor %}
+    </div>
+    <div class="empty-state" data-guide-empty hidden>
+      {{ nd.icon('search', 32) }}
+      <h3>No creatures in this patch.</h3>
+      <p>Try a different name, group, or region.</p>
+      <button type="button" class="secondary-button" data-guide-reset>Reset filters</button>
+    </div>
+    {% include '@naturedex_core/naturedex-species-templates.html.twig' with {list: species, regions: regions} only %}
+  </section>
+  <div class="guide-aside">
+    {% include '@naturedex_core/naturedex-region-map.html.twig' with {regions: regions, species: species, outline: outline, large: is_map} only %}
+    <div class="region-note panel" data-guide-region-note hidden>
+      <span class="eyebrow">A HABITAT WORTH EXPLORING</span>
+      <h3 data-guide-region-title></h3>
+      <p data-guide-region-description></p>
+    </div>
+    <section class="field-tip">
+      <div class="field-tip-icon">{{ nd.icon('leaf', 23) }}</div>
+      <div>
+        <span class="eyebrow">A NOTE FROM THE TRAIL</span>
+        <h3>Look a little longer.</h3>
+        <p>Slow down, listen closely, and leave every habitat just as you found it.</p>
+      </div>
+      <span class="tip-sparkle" aria-hidden="true">✦</span>
+    </section>
+    <section class="aside-journal">
+      <div class="results-heading">
+        <h2>FROM THE FIELD JOURNAL</h2>
+        <a href="{{ path('naturedex.journal') }}" aria-label="View all field notes">View all ↗</a>
+      </div>
+      {% for card in recent %}
+        {% include '@naturedex_core/naturedex-journal-card.html.twig' with {card: card, compact: true} only %}
+      {% endfor %}
+    </section>
+    <div class="original-note">
+      <span aria-hidden="true">✧</span>
+      <p>Real wildlife. Original pixel art.<br>A field guide with a little nostalgia.</p>
+    </div>
+  </div>
+</div>

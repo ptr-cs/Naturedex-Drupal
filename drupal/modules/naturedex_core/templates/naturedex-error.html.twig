@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Not found and access denied.
+ *
+ * Available variables:
+ * - kind: journal, editor, not_found, or access_denied.
+ */
+#}
+{% if kind == 'journal' %}
+  <p class="error-message" role="alert">This field note is unavailable or has not been published.</p>
+  <a href="{{ path('naturedex.journal') }}" class="text-link">← All field notes</a>
+{% elseif kind == 'editor' %}
+  <div class="empty-state">
+    <h2>Your account does not have access to the writing desk.</h2>
+    <p>Ask an editor to give your account the Contributor role.</p>
+    <a class="primary-button" href="{{ path('<front>') }}">Return to the field guide</a>
+  </div>
+{% else %}
+  <div class="empty-state">
+    <h2>{{ kind == 'access_denied' ? 'You can’t open this page.' : 'This trail doesn’t lead anywhere.' }}</h2>
+    <a class="primary-button" href="{{ path('<front>') }}">Return to the field guide</a>
+  </div>
+{% endif %}

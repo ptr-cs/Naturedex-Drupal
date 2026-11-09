@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mountains",
+    "name": "Blue Ridge & Appalachians",
+    "shortName": "Mountains",
+    "x": 154,
+    "y": 291,
+    "color": "#8aab77",
+    "description": "Highland forests, rocky ridges, and cold mountain streams."
+  },
+  {
+    "id": "valley",
+    "name": "Shenandoah Valley",
+    "shortName": "Valley",
+    "x": 277,
+    "y": 258,
+    "color": "#c2c778",
+    "description": "A patchwork of river valleys, fields, and woodland edges."
+  },
+  {
+    "id": "piedmont",
+    "name": "Virginia Piedmont",
+    "shortName": "Piedmont",
+    "x": 377,
+    "y": 214,
+    "color": "#b3ca8c",
+    "description": "Rolling hills, mixed forests, ponds, and open meadows."
+  },
+  {
+    "id": "coastal",
+    "name": "Coastal Plain & Chesapeake",
+    "shortName": "Coastal plain",
+    "x": 490,
+    "y": 231,
+    "color": "#d6d4a0",
+    "description": "Tidal rivers, coastal wetlands, and sandy shorelines."
+  }
+]

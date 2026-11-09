@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dex_number
+    - node.type.species
+id: node.species.field_dex_number
+field_name: field_dex_number
+entity_type: node
+bundle: species
+label: Dex number
+description: The entry’s position in the field guide.
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: 999
+  prefix: ''
+  suffix: ''
+field_type: integer

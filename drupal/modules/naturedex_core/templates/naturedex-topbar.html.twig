@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * The top bar: breadcrumb and the sprite motion toggle.
+ *
+ * Available variables:
+ * - crumb: The current section's name.
+ */
+#}
+<header class="topbar">
+  <div class="breadcrumb">
+    <span>EXPLORER’S LOG</span>
+    <span aria-hidden="true">/</span>
+    <strong>{{ crumb }}</strong>
+  </div>
+  <div class="topbar-right">
+    <button class="sprite-motion-toggle js-only" type="button" data-motion-toggle disabled aria-pressed="false">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path data-motion-icon d="M3 1v10l7-5z"/></svg>
+      <span data-motion-label>Animate sprites</span>
+    </button>
+    <span id="sprite-motion-explanation" class="sr-only" hidden>Sprite animations are off because reduced motion is enabled in your device settings.</span>
+    <span class="local-badge"><span></span>VIRGINIA EDITION</span>
+    <span class="researcher-avatar" aria-hidden="true">N</span>
+  </div>
+</header>

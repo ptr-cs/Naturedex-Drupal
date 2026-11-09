@@ -1,0 +1,39 @@
+{#
+/**
+ * @file
+ * A field note.
+ *
+ * Available variables:
+ * - note: category, author, created (a timestamp), excerpt, published, edit_url.
+ * - body: The rendered body.
+ * - related: Published species records linked to the note.
+ * - regions: All region records.
+ */
+#}
+<article class="full-article">
+  <a href="{{ path('naturedex.journal') }}" class="text-link">← All field notes</a>
+  {% if not note.published %}
+    <p class="error-message" role="note">This field note is a draft. Only its author and editors can see it.</p>
+  {% endif %}
+  <div class="article-meta">
+    {% if note.category %}<span class="group-badge">{{ note.category }}</span>{% endif %}
+    <span>{{ note.author }}</span>
+    <time datetime="{{ note.created|date('c') }}">{{ note.created|date('F j, Y') }}</time>
+    {% if note.edit_url %}<a class="text-link" href="{{ note.edit_url }}">Edit in Drupal</a>{% endif %}
+  </div>
+  {% if note.excerpt %}
+    <p class="article-lede">{{ note.excerpt }}</p>
+  {% endif %}
+  <div class="article-body">{{ body }}</div>
+  {% if related %}
+    <section class="article-related">
+      <h2>Meet the neighbors in this story</h2>
+      <div class="species-grid">
+        {% for entry in related %}
+          {% include '@naturedex_core/naturedex-species-card.html.twig' with {species: entry} only %}
+        {% endfor %}
+      </div>
+      {% include '@naturedex_core/naturedex-species-templates.html.twig' with {list: related, regions: regions} only %}
+    </section>
+  {% endif %}
+</article>

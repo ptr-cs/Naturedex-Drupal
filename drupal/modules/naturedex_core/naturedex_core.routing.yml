@@ -1,0 +1,137 @@
+# Public pages. The front page path is set to /guide during install, so the
+# guide is served at /.
+naturedex.guide:
+  path: '/guide'
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\SiteController::guide'
+    _title: 'Virginia field guide'
+  requirements:
+    _permission: 'access content'
+
+naturedex.map:
+  path: '/map'
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\SiteController::map'
+    _title: 'Region map'
+  requirements:
+    _permission: 'access content'
+
+naturedex.journal:
+  path: '/journal'
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\SiteController::journal'
+    _title: 'Field journal'
+  requirements:
+    _permission: 'access content'
+
+# Anonymous visitors are sent to sign in by the controller rather than shown a
+# 403, so this route is open and the controller checks the permission.
+naturedex.editor:
+  path: '/editor'
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\SiteController::editor'
+    _title: 'Writing desk'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+naturedex.not_found:
+  path: '/naturedex/not-found'
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\SiteController::notFound'
+    _title: 'Not found'
+  requirements:
+    _access: 'TRUE'
+
+naturedex.access_denied:
+  path: '/naturedex/access-denied'
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\SiteController::accessDenied'
+    _title: 'Access denied'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+# Writing desk API. Every route is JSON only. Writes from a signed-in session
+# need Drupal's X-CSRF-Token header (from /session/token); the controller then
+# checks node access for the specific post.
+naturedex.api.posts:
+  path: '/api/naturedex/posts'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\PostsApiController::listPosts'
+  requirements:
+    _access: 'TRUE'
+    _format: json
+  options:
+    no_cache: TRUE
+
+naturedex.api.posts.create:
+  path: '/api/naturedex/posts'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\PostsApiController::createPost'
+  requirements:
+    _access: 'TRUE'
+    _format: json
+    _csrf_request_header_token: 'TRUE'
+  options:
+    no_cache: TRUE
+
+naturedex.api.post:
+  path: '/api/naturedex/posts/{id}'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\PostsApiController::getPost'
+  requirements:
+    _access: 'TRUE'
+    _format: json
+    id: '[a-z0-9-]+'
+  options:
+    no_cache: TRUE
+
+naturedex.api.post.update:
+  path: '/api/naturedex/posts/{id}'
+  methods: [PATCH]
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\PostsApiController::updatePost'
+  requirements:
+    _access: 'TRUE'
+    _format: json
+    _csrf_request_header_token: 'TRUE'
+    id: '[a-z0-9-]+'
+  options:
+    no_cache: TRUE
+
+naturedex.api.post.delete:
+  path: '/api/naturedex/posts/{id}'
+  methods: [DELETE]
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\PostsApiController::deletePost'
+  requirements:
+    _access: 'TRUE'
+    _format: json
+    _csrf_request_header_token: 'TRUE'
+    id: '[a-z0-9-]+'
+  options:
+    no_cache: TRUE
+
+naturedex.api.species:
+  path: '/api/naturedex/species'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\PostsApiController::species'
+  requirements:
+    _permission: 'access content'
+    _format: json
+
+naturedex.api.regions:
+  path: '/api/naturedex/regions'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\PostsApiController::regions'
+  requirements:
+    _permission: 'access content'
+    _format: json

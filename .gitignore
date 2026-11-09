@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+# Drupal distribution, PHP runtime, database, and generated password.
+.runtime/
+drupal/themes/naturedex/assets/dist/
+tests/.auth/
+test-results/
+playwright-report/

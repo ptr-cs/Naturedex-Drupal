@@ -1,0 +1,45 @@
+[
+  {
+    "slug": "the-art-of-noticing",
+    "title": "The art of noticing",
+    "excerpt": "A field guide begins with a pause. Try a smaller walk, a slower look, and a better question.",
+    "body": "## Choose one small place\n\nA useful nature walk does not need a dramatic destination. Choose a stretch of public trail, a garden edge, or a spot you already pass. Give yourself permission to cover less ground. The aim is to notice a little more of what is already there.\n\nBefore opening the guide, take in the whole scene. Is there open grass, deep shade, standing water, or a meeting of several habitats? Habitat gives your observations context. It does not guarantee that a particular animal is present.\n\n## Describe before you name\n\nStart with a few observable details: size compared with something familiar, overall shape, color blocks, and the way the animal moves. A quick sketch can preserve the curve of a tail or the shape of a bill better than a hurried guess.\n\nKeep observation and interpretation separate. “Small bird with a crest” records something you saw. A species name is a hypothesis to check. Leaving a note unfinished is a useful part of learning.\n\n## Keep the encounter small\n\nUse the collection as a memory aid, not a score to complete. A sighting can be a moment of attention: a bird visiting cover, a distant deer, or a shape that disappears before you identify it. Stay on permitted paths and give animals room to continue what they were doing.\n\nWhen you return, compare your notes with the species references. Add what remains uncertain. A thoughtful question is a better souvenir than a confident mistake.",
+    "status": "published",
+    "category": "Fieldcraft",
+    "relatedSpeciesIds": [
+      "red-fox",
+      "northern-cardinal",
+      "white-tailed-deer"
+    ],
+    "publishedAt": "2026-11-05T00:00:00Z"
+  },
+  {
+    "slug": "read-the-water",
+    "title": "Read the water, then the wildlife",
+    "excerpt": "From a shaded mountain stream to a still pond, start with the setting before searching for a species.",
+    "body": "## Let the habitat lead\n\nWater can organize a whole afternoon of looking. Begin from a safe, permitted place on shore. Notice whether the water runs quickly or settles into a quiet pool, and whether trees shade its surface. These details make a useful first page in a field notebook.\n\nThe brook trout entry is a reminder that “water” is not a single habitat. Its linked DWR reference describes cold, oxygen-rich streams with protective cover. A warm, still pond asks different questions.\n\n## Look at three layers\n\nTry looking across the surface, along the bank, and into the air. A great blue heron may be easiest to recognize by its long-legged outline. A painted turtle brings attention to places above water where it can bask. A dragonfly directs your eye to the space just over a pond.\n\nYou do not have to find all three. The exercise is simply a way to vary your attention. Changing your viewing angle can reveal details you missed without moving closer to an animal.\n\n## Leave with questions\n\nWrite down the habitat alongside each observation. Was your view brief or clear? Did light make a color hard to judge? Could another species fit the same outline? Those notes make later comparisons more useful.\n\nNaturedex region filters are broad, illustrative habitat associations. They are a starting point for exploring entries, rather than evidence that an animal was seen at a particular location. Follow the primary references when you need verified distribution information.",
+    "status": "published",
+    "category": "Habitats",
+    "relatedSpeciesIds": [
+      "brook-trout",
+      "great-blue-heron",
+      "green-darner",
+      "painted-turtle"
+    ],
+    "publishedAt": "2026-11-04T00:00:00Z"
+  },
+  {
+    "slug": "beyond-the-bright-wings",
+    "title": "Beyond the bright wings",
+    "excerpt": "Turn one butterfly encounter into a closer look at color, shape, plants, and the life around them.",
+    "body": "## Follow a shape\n\nA butterfly is often a flash of color before it is a name. Wait for a good view. Notice the outline, the way the wings are held, and whether the upper and lower surfaces look different. You can make a useful observation without touching or catching anything.\n\nThe original sprites in this guide simplify animals into a few visual cues. Use them to navigate the collection, then turn to the linked references for identification detail. Pixel art is an invitation to look more closely, not a replacement for a field photograph or expert guide.\n\n## Notice the plant, too\n\nThe monarch entry connects two different diets: nectar for adults and milkweed for caterpillars. That relationship makes the surrounding plants part of the story. Record the plant if you can identify it, or sketch it and leave its name open.\n\nA butterfly visiting a flower is not necessarily laying eggs there. Describe the behavior you actually observed. Small distinctions make a journal more informative over time.\n\n## Build a quieter collection\n\nSave a favorite entry, compare a second one, and come back another day. A familiar patch of flowers can offer new questions as the light and weather change. Keep your visit gentle: watch from the path, move slowly, and avoid blocking an animal’s route.\n\nThe best collection may be a set of questions that get more precise. What changed when the wings closed? Which detail helped you compare two possibilities? A return visit gives you another chance to notice.",
+    "status": "published",
+    "category": "Small wonders",
+    "relatedSpeciesIds": [
+      "monarch",
+      "tiger-swallowtail",
+      "green-darner"
+    ],
+    "publishedAt": "2026-11-03T00:00:00Z"
+  }
+]

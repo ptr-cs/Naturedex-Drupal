@@ -1,0 +1,441 @@
+[
+  {
+    "id": "american-bullfrog",
+    "description": "The pale throat gently expands, then both eyes briefly close.",
+    "duration": 3.6,
+    "sequence": [0, 1, 0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "paint",
+          "bounds": [20, 31, 27, 33],
+          "color": "#d6cd83"
+        },
+        {
+          "type": "paint",
+          "bounds": [18, 28, 19, 30],
+          "color": "#d6cd83"
+        },
+        {
+          "type": "paint",
+          "bounds": [28, 28, 29, 30],
+          "color": "#d6cd83"
+        }
+      ],
+      [
+        {
+          "type": "blink",
+          "bounds": [15, 15, 16, 16],
+          "color": "#a9c27a"
+        },
+        {
+          "type": "blink",
+          "bounds": [31, 15, 32, 16],
+          "color": "#a9c27a"
+        },
+        {
+          "type": "paint",
+          "bounds": [15, 16, 16, 16],
+          "color": "#536b3d"
+        },
+        {
+          "type": "paint",
+          "bounds": [31, 16, 32, 16],
+          "color": "#536b3d"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "spotted-salamander",
+    "description": "The tapered tail sweeps a pixel to either side while a rear foot shifts.",
+    "duration": 1.8,
+    "sequence": [0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [2, 24, 14, 34],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "move",
+          "bounds": [33, 32, 38, 35],
+          "dx": 1,
+          "dy": 0
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [2, 24, 14, 34],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "move",
+          "bounds": [33, 32, 38, 35],
+          "dx": -1,
+          "dy": 0
+        }
+      ]
+    ]
+  },
+  {
+    "id": "red-spotted-newt",
+    "description": "The orange eft flexes its tail and lightly repositions a rear foot.",
+    "duration": 2.1,
+    "sequence": [0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [3, 25, 14, 35],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "move",
+          "bounds": [33, 31, 38, 35],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [3, 25, 14, 35],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "move",
+          "bounds": [33, 31, 38, 35],
+          "dx": 1,
+          "dy": 0
+        }
+      ]
+    ]
+  },
+  {
+    "id": "spring-peeper",
+    "description": "A tiny foot taps, followed by a quick, paired eye blink.",
+    "duration": 3.2,
+    "sequence": [0, 1, 0, 0, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [6, 35, 13, 40],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "move",
+          "bounds": [35, 35, 42, 40],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "blink",
+          "bounds": [16, 14, 17, 15],
+          "color": "#d0b280"
+        },
+        {
+          "type": "blink",
+          "bounds": [30, 14, 31, 15],
+          "color": "#d0b280"
+        },
+        {
+          "type": "paint",
+          "bounds": [16, 15, 17, 15],
+          "color": "#786342"
+        },
+        {
+          "type": "paint",
+          "bounds": [30, 15, 31, 15],
+          "color": "#786342"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "brook-trout",
+    "description": "The orange tail fans up and down as the dorsal fin changes angle.",
+    "duration": 1.4,
+    "sequence": [0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [36, 14, 45, 34],
+          "dx": 0,
+          "dy": -2
+        },
+        {
+          "type": "move",
+          "bounds": [17, 12, 29, 18],
+          "dx": 0,
+          "dy": 1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [36, 14, 45, 34],
+          "dx": 0,
+          "dy": 2
+        },
+        {
+          "type": "move",
+          "bounds": [17, 12, 29, 18],
+          "dx": 0,
+          "dy": -1
+        }
+      ]
+    ]
+  },
+  {
+    "id": "largemouth-bass",
+    "description": "The tail beats in a slow rhythm while the top fin subtly flexes.",
+    "duration": 1.8,
+    "sequence": [0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [36, 14, 45, 34],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "move",
+          "bounds": [17, 12, 29, 18],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [36, 14, 45, 34],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "move",
+          "bounds": [17, 12, 29, 18],
+          "dx": 0,
+          "dy": 1
+        }
+      ]
+    ]
+  },
+  {
+    "id": "bluegill",
+    "description": "The forked tail paddles while the lower fin gives a small counterstroke.",
+    "duration": 1.5,
+    "sequence": [0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [36, 14, 45, 34],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "move",
+          "bounds": [25, 34, 32, 38],
+          "dx": -1,
+          "dy": 0
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [36, 14, 45, 34],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "move",
+          "bounds": [25, 34, 32, 38],
+          "dx": 1,
+          "dy": 0
+        }
+      ]
+    ]
+  },
+  {
+    "id": "channel-catfish",
+    "description": "The tail sweeps gently; the longest whiskers twitch independently.",
+    "duration": 2.0,
+    "sequence": [0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [36, 14, 45, 34],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "move",
+          "bounds": [2, 21, 5, 24],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [36, 14, 45, 34],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "move",
+          "bounds": [2, 28, 5, 31],
+          "dx": 0,
+          "dy": 1
+        }
+      ]
+    ]
+  },
+  {
+    "id": "monarch",
+    "description": "Both wings fold toward the body and open in a measured flutter.",
+    "duration": 1.7,
+    "sequence": [0, 1, 2, 1],
+    "frames": [
+      [],
+      [
+        {
+          "type": "foldX",
+          "bounds": [2, 6, 45, 40],
+          "anchorX": 23.5,
+          "factor": 0.76
+        }
+      ],
+      [
+        {
+          "type": "foldX",
+          "bounds": [2, 6, 45, 40],
+          "anchorX": 23.5,
+          "factor": 0.46
+        }
+      ]
+    ]
+  },
+  {
+    "id": "tiger-swallowtail",
+    "description": "The striped wings and hindwing tails draw inward, then spread again.",
+    "duration": 1.5,
+    "sequence": [0, 1, 2, 1],
+    "frames": [
+      [],
+      [
+        {
+          "type": "foldX",
+          "bounds": [2, 6, 45, 44],
+          "anchorX": 23.5,
+          "factor": 0.8
+        }
+      ],
+      [
+        {
+          "type": "foldX",
+          "bounds": [2, 6, 45, 44],
+          "anchorX": 23.5,
+          "factor": 0.5
+        }
+      ]
+    ]
+  },
+  {
+    "id": "green-darner",
+    "description": "Four wings flick inward around a stable green thorax and segmented abdomen.",
+    "duration": 1.2,
+    "sequence": [0, 1, 2, 1],
+    "frames": [
+      [],
+      [
+        {
+          "type": "foldX",
+          "bounds": [2, 11, 20, 30],
+          "anchorX": 24,
+          "factor": 0.76
+        },
+        {
+          "type": "foldX",
+          "bounds": [28, 11, 46, 30],
+          "anchorX": 24,
+          "factor": 0.76
+        }
+      ],
+      [
+        {
+          "type": "foldX",
+          "bounds": [2, 11, 20, 30],
+          "anchorX": 24,
+          "factor": 0.5
+        },
+        {
+          "type": "foldX",
+          "bounds": [28, 11, 46, 30],
+          "anchorX": 24,
+          "factor": 0.5
+        }
+      ]
+    ]
+  },
+  {
+    "id": "horseshoe-crab",
+    "description": "The long tail shifts side to side with a small twitch of the rear edges.",
+    "duration": 2.4,
+    "sequence": [0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [21, 36, 26, 47],
+          "dx": 1,
+          "dy": 0
+        },
+        {
+          "type": "move",
+          "bounds": [13, 32, 17, 35],
+          "dx": -1,
+          "dy": 0
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [21, 36, 26, 47],
+          "dx": -1,
+          "dy": 0
+        },
+        {
+          "type": "move",
+          "bounds": [30, 32, 34, 35],
+          "dx": 1,
+          "dy": 0
+        }
+      ]
+    ]
+  }
+]

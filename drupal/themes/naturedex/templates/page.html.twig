@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * The app shell. Its parts are blocks from naturedex_core, placed by the
+ * theme's block configuration.
+ */
+#}
+<div class="app-shell">
+  <aside class="sidebar">
+    {{ page.sidebar }}
+  </aside>
+  <div class="workspace">
+    {{ page.topbar }}
+    <main id="main" tabindex="-1">
+      {{ page.heading }}
+      {{ page.content }}
+      <footer class="page-footer">
+        <span>NATUREDEX <span class="footer-star">✦</span> VIRGINIA EDITION</span>
+        <a href="/about">About</a>
+        <span>Take only memories. Leave only footprints.</span>
+      </footer>
+    </main>
+  </div>
+</div>

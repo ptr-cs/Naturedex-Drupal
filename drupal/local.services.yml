@@ -1,0 +1,7 @@
+# Local development container settings, loaded from settings.php.
+parameters:
+  twig.config:
+    # Templates recompile when their files change, without a cache rebuild.
+    auto_reload: true
+    cache: true
+    debug: false

@@ -1,0 +1,901 @@
+[
+  {
+    "id": "white-tailed-deer",
+    "dexNumber": 1,
+    "name": "White-tailed Deer",
+    "scientificName": "Odocoileus virginianus",
+    "group": "Mammals",
+    "sprite": "white-tailed-deer",
+    "description": "A familiar woodland browser with a bright white underside to its tail. Adults change from warmer summer coats to grayer winter coats.",
+    "habitats": [
+      "Woodland",
+      "Forest edge",
+      "Meadow"
+    ],
+    "diet": [
+      "Leaves",
+      "Seeds",
+      "Acorns"
+    ],
+    "activity": "Crepuscular",
+    "size": {
+      "lengthCm": null,
+      "weightKg": [
+        45.4,
+        90.7
+      ],
+      "note": "Female adult weight: approximately 45–91 kg (100–200 lb), from the NPS reference. Males can be larger; this is not a combined-sex range."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/white-tailed-deer/",
+      "https://www.nps.gov/slbe/learn/nature/mammals.htm",
+      "https://www.nps.gov/mima/learn/nature/mammals.htm"
+    ]
+  },
+  {
+    "id": "black-bear",
+    "dexNumber": 2,
+    "name": "American Black Bear",
+    "scientificName": "Ursus americanus",
+    "group": "Mammals",
+    "sprite": "black-bear",
+    "description": "Rounded ears, a short tail, and a brown muzzle distinguish this powerful forest mammal. Virginia bears are usually black-coated.",
+    "habitats": [
+      "Woodland",
+      "Mountain forest",
+      "Swamp"
+    ],
+    "diet": [
+      "Plant matter",
+      "Fruit",
+      "Acorns",
+      "Invertebrates"
+    ],
+    "activity": "Crepuscular",
+    "size": {
+      "lengthCm": [
+        121.9,
+        213.4
+      ],
+      "weightKg": [
+        40.8,
+        226.8
+      ],
+      "note": "Adult nose-to-tail length: about 122–213 cm. Combined female/male weight span: about 41–227 kg; season and sex strongly affect mass."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/black-bear/",
+      "https://www.nps.gov/slbe/learn/nature/mammals.htm"
+    ]
+  },
+  {
+    "id": "red-fox",
+    "dexNumber": 3,
+    "name": "Red Fox",
+    "scientificName": "Vulpes vulpes",
+    "group": "Mammals",
+    "sprite": "red-fox",
+    "description": "A pointed muzzle, upright ears, dark lower legs, and a generous brush of a tail give this adaptable canid its distinctive outline.",
+    "habitats": [
+      "Forest edge",
+      "Meadow",
+      "Farmland"
+    ],
+    "diet": [
+      "Small mammals",
+      "Insects",
+      "Fruit",
+      "Nuts"
+    ],
+    "activity": "Crepuscular",
+    "size": {
+      "lengthCm": [
+        45.7,
+        88.9
+      ],
+      "weightKg": [
+        3.2,
+        14.1
+      ],
+      "note": "DWR reports approximately 46–89 cm length and 3–14 kg weight; individuals and regional populations vary."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/red-fox/"
+    ]
+  },
+  {
+    "id": "river-otter",
+    "dexNumber": 4,
+    "name": "North American River Otter",
+    "scientificName": "Lontra canadensis",
+    "group": "Mammals",
+    "sprite": "river-otter",
+    "description": "A streamlined swimmer with short legs, webbed feet, and a strong tapering tail. Its dense brown coat is paler underneath.",
+    "habitats": [
+      "River",
+      "Wetland",
+      "Coastal water"
+    ],
+    "diet": [
+      "Fish",
+      "Aquatic prey"
+    ],
+    "activity": "Variable",
+    "size": {
+      "lengthCm": [
+        90,
+        127
+      ],
+      "weightKg": [
+        4.5,
+        11.3
+      ],
+      "note": "Total length: 90–127 cm; weight: about 4.5–11.3 kg, from DWR. Activity can occur at any hour."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/northern-river-otter/",
+      "https://www.nps.gov/mnrr/learn/nature/river-otter.htm"
+    ]
+  },
+  {
+    "id": "northern-cardinal",
+    "dexNumber": 5,
+    "name": "Northern Cardinal",
+    "scientificName": "Cardinalis cardinalis",
+    "group": "Birds",
+    "sprite": "northern-cardinal",
+    "description": "A crested songbird with a stout seed-cracking bill. The sprite represents the bright red male; females are warm brown with reddish accents.",
+    "habitats": [
+      "Woodland",
+      "Forest edge",
+      "Garden"
+    ],
+    "diet": [
+      "Seeds",
+      "Fruit",
+      "Insects"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "The linked NPS guide describes a small songbird. A numeric length or mass range is not supplied here."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/hafe/learn/nature/cardinals-and-allies.htm",
+      "https://www.nps.gov/fomc/learn/nature/birds2.htm"
+    ]
+  },
+  {
+    "id": "bald-eagle",
+    "dexNumber": 6,
+    "name": "Bald Eagle",
+    "scientificName": "Haliaeetus leucocephalus",
+    "group": "Birds",
+    "sprite": "bald-eagle",
+    "description": "Adults combine a white head and tail with broad brown wings. Young eagles lack the full adult white-headed pattern.",
+    "habitats": [
+      "Lake",
+      "River",
+      "Coastal water"
+    ],
+    "diet": [
+      "Fish",
+      "Waterfowl",
+      "Carrion"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": [
+        71.1,
+        96.5
+      ],
+      "weightKg": null,
+      "note": "NPS gives an average adult length range of about 71–97 cm (28–38 in) and an approximately 203 cm (80 in) wingspan."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/articles/bald-eagle.htm",
+      "https://www.nps.gov/places/000/bald-eagle.htm"
+    ]
+  },
+  {
+    "id": "great-blue-heron",
+    "dexNumber": 7,
+    "name": "Great Blue Heron",
+    "scientificName": "Ardea herodias",
+    "group": "Birds",
+    "sprite": "great-blue-heron",
+    "description": "A long-legged wader with a folded neck in flight and a dagger-like bill. Look for its patient, deliberate stance beside shallow water.",
+    "habitats": [
+      "Wetland",
+      "River",
+      "Coastal water"
+    ],
+    "diet": [
+      "Fish",
+      "Amphibians",
+      "Small mammals"
+    ],
+    "activity": "Variable",
+    "size": {
+      "lengthCm": null,
+      "weightKg": [
+        2.1,
+        2.9
+      ],
+      "note": "NPS reports weight around 2.1–2.9 kg and length up to about 137 cm. Wingspan is approximately 168–198 cm."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/bith/learn/nature/great-blue-heron.htm",
+      "https://www.nps.gov/bicy/learn/nature/wading-birds.htm"
+    ]
+  },
+  {
+    "id": "pileated-woodpecker",
+    "dexNumber": 8,
+    "name": "Pileated Woodpecker",
+    "scientificName": "Dryocopus pileatus",
+    "group": "Birds",
+    "sprite": "pileated-woodpecker",
+    "description": "A large black woodpecker with bold white face markings and a red crest. It excavates wood in search of insects.",
+    "habitats": [
+      "Woodland",
+      "Mature forest"
+    ],
+    "diet": [
+      "Ants",
+      "Beetle larvae",
+      "Fruit",
+      "Nuts"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": [
+        40,
+        49
+      ],
+      "weightKg": [
+        0.227,
+        0.34
+      ],
+      "note": "Body length: 40–49 cm. The NPS bird guide reports weight around 227–340 g (8–12 oz)."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/articles/pileated-woodpecker.htm",
+      "https://www.nps.gov/laro/learn/nature/songbirds-and-woodpeckers.htm"
+    ]
+  },
+  {
+    "id": "woodland-box-turtle",
+    "dexNumber": 9,
+    "name": "Woodland Box Turtle",
+    "scientificName": "Terrapene carolina carolina",
+    "group": "Reptiles",
+    "sprite": "woodland-box-turtle",
+    "description": "A high-domed land turtle patterned with yellow or orange. Its hinged lower shell can close around its head and limbs.",
+    "habitats": [
+      "Woodland",
+      "Forest edge",
+      "Swamp"
+    ],
+    "diet": [
+      "Fruit",
+      "Fungi",
+      "Earthworms",
+      "Slugs"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": [
+        11.4,
+        20.3
+      ],
+      "weightKg": null,
+      "note": "DWR reports 11–20 cm (4.5–8 in). This measurement describes shell length, rather than head-to-tail length."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/woodland-box-turtle/"
+    ]
+  },
+  {
+    "id": "central-ratsnake",
+    "dexNumber": 10,
+    "name": "Central Ratsnake",
+    "scientificName": "Pantherophis alleghaniensis",
+    "group": "Reptiles",
+    "sprite": "central-ratsnake",
+    "description": "A long, often dark-bodied snake associated with wooded edges. Older references may call this animal an eastern or black ratsnake.",
+    "habitats": [
+      "Woodland",
+      "Forest edge",
+      "Farmland"
+    ],
+    "diet": [
+      "Rodents",
+      "Birds",
+      "Eggs"
+    ],
+    "activity": "Variable",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "Names and species boundaries differ among older references. No numeric range is included from those mixed-taxonomy accounts."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/blog/a-snake-in-the-grass-is-a-very-good-thing/",
+      "https://services.dwr.virginia.gov/fwis/NewPages/VaFWIS_report_bova.asp",
+      "https://www.nps.gov/keaq/learn/nature/reptiles.htm"
+    ]
+  },
+  {
+    "id": "five-lined-skink",
+    "dexNumber": 11,
+    "name": "Five-lined Skink",
+    "scientificName": "Plestiodon fasciatus",
+    "group": "Reptiles",
+    "sprite": "five-lined-skink",
+    "description": "A sleek, striped lizard that can move quickly into cover. The blue tail shown in the sprite is especially characteristic of young skinks.",
+    "habitats": [
+      "Woodland",
+      "Forest edge",
+      "Stream bank"
+    ],
+    "diet": [
+      "Insects",
+      "Spiders",
+      "Other arthropods"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "NPS describes adults reaching around 20 cm (8 in); a typical range and mass are not included here."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/slbe/learn/nature/reptiles.htm",
+      "https://www.nps.gov/keaq/learn/nature/reptiles.htm",
+      "https://dwr.virginia.gov/vbwt/sites/locher-tract/"
+    ]
+  },
+  {
+    "id": "painted-turtle",
+    "dexNumber": 12,
+    "name": "Eastern Painted Turtle",
+    "scientificName": "Chrysemys picta picta",
+    "group": "Reptiles",
+    "sprite": "painted-turtle",
+    "description": "A low, smooth-shelled freshwater turtle with red accents around the shell margin. Basking sites are an important part of its habitat.",
+    "habitats": [
+      "Pond",
+      "Lake",
+      "Slow river"
+    ],
+    "diet": [
+      "Aquatic plants",
+      "Aquatic invertebrates"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "DWR reports shell length up to approximately 18 cm (7.2 in). A maximum is not a typical adult range."
+    },
+    "regionIds": [
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/eastern-painted-turtle/",
+      "https://www.nps.gov/grpo/learn/kidsyouth/coloring-pages.htm"
+    ]
+  },
+  {
+    "id": "american-bullfrog",
+    "dexNumber": 13,
+    "name": "American Bullfrog",
+    "scientificName": "Lithobates catesbeianus",
+    "group": "Amphibians",
+    "sprite": "american-bullfrog",
+    "description": "A large green-to-brown frog often seen at the edge of permanent water. Its conspicuous round eardrum sits behind the eye.",
+    "habitats": [
+      "Pond",
+      "Lake",
+      "Wetland"
+    ],
+    "diet": [
+      "Aquatic invertebrates",
+      "Small fish",
+      "Other small animals"
+    ],
+    "activity": "Variable",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "NPS reports length up to about 20 cm (8 in) and weight exceeding 0.45 kg (1 lb); these are not typical ranges."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/articles/000/american-bullfrogs-fast-facts.htm",
+      "https://dwr.virginia.gov/wildlife/information/american-bullfrog/"
+    ]
+  },
+  {
+    "id": "spotted-salamander",
+    "dexNumber": 14,
+    "name": "Spotted Salamander",
+    "scientificName": "Ambystoma maculatum",
+    "group": "Amphibians",
+    "sprite": "spotted-salamander",
+    "description": "A dark, sturdy salamander with rows of yellow spots. Adults spend much of their time sheltered underground.",
+    "habitats": [
+      "Woodland",
+      "Forest floor",
+      "Seasonal pool"
+    ],
+    "diet": [
+      "Invertebrates"
+    ],
+    "activity": "Nocturnal",
+    "size": {
+      "lengthCm": [
+        11.4,
+        19.1
+      ],
+      "weightKg": null,
+      "note": "The NPS Prince William Forest guide reports approximately 11–19 cm (4.5–7.5 in) total length."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/spotted-salamander/",
+      "https://www.nps.gov/prwi/learn/nature/salamanders.htm",
+      "https://www.nps.gov/common/uploads/teachers/lessonplans/Teacher-Information.pdf"
+    ]
+  },
+  {
+    "id": "red-spotted-newt",
+    "dexNumber": 15,
+    "name": "Red-spotted Newt",
+    "scientificName": "Notophthalmus viridescens",
+    "group": "Amphibians",
+    "sprite": "red-spotted-newt",
+    "description": "This amphibian changes its look and habitat as it grows. The sprite shows the orange terrestrial eft; aquatic adults are usually olive green.",
+    "habitats": [
+      "Woodland",
+      "Pond",
+      "Wetland"
+    ],
+    "diet": [
+      "Invertebrates"
+    ],
+    "activity": "Variable",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "DWR reports total length up to about 12 cm (4.8 in). Efts and aquatic adults differ in appearance and habits."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/red-spotted-newt/"
+    ]
+  },
+  {
+    "id": "spring-peeper",
+    "dexNumber": 16,
+    "name": "Spring Peeper",
+    "scientificName": "Pseudacris crucifer",
+    "group": "Amphibians",
+    "sprite": "spring-peeper",
+    "description": "A tiny frog often marked with a dark X on its back. Its familiar high-pitched calls can be easier to notice than the frog itself.",
+    "habitats": [
+      "Wet meadow",
+      "Woodland pond",
+      "Seasonal pool"
+    ],
+    "diet": [
+      "Small invertebrates"
+    ],
+    "activity": "Nocturnal",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "DWR reports length up to about 3.2 cm (1.25 in). Not every individual shows a sharply defined X."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/spring-peeper/",
+      "https://www.nps.gov/kaww/learn/nature/frogs.htm"
+    ]
+  },
+  {
+    "id": "brook-trout",
+    "dexNumber": 17,
+    "name": "Brook Trout",
+    "scientificName": "Salvelinus fontinalis",
+    "group": "Fish",
+    "sprite": "brook-trout",
+    "description": "A cold-water fish with a patterned back, pale spots, and orange-red fins edged in white. It depends on cool, well-oxygenated streams.",
+    "habitats": [
+      "Mountain stream",
+      "Cold water",
+      "Shaded stream"
+    ],
+    "diet": [
+      "Aquatic insects",
+      "Terrestrial insects",
+      "Small fish"
+    ],
+    "activity": "Crepuscular",
+    "size": {
+      "lengthCm": [
+        15.2,
+        30.5
+      ],
+      "weightKg": null,
+      "note": "DWR gives a typical Virginia length of about 15–30 cm (6–12 in). Some individuals grow larger."
+    },
+    "regionIds": [
+      "mountains",
+      "valley"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/brook-trout/",
+      "https://www.nps.gov/shen/learn/nature/brook-trout.htm"
+    ]
+  },
+  {
+    "id": "largemouth-bass",
+    "dexNumber": 18,
+    "name": "Largemouth Bass",
+    "scientificName": "Micropterus nigricans",
+    "group": "Fish",
+    "sprite": "largemouth-bass",
+    "description": "An olive-green ambush predator with a broad mouth and a dark stripe along its side. It often uses submerged cover.",
+    "habitats": [
+      "Lake",
+      "Pond",
+      "Slow river"
+    ],
+    "diet": [
+      "Fish",
+      "Crayfish",
+      "Amphibians",
+      "Insects"
+    ],
+    "activity": "Crepuscular",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "DWR reports individuals reaching about 7.3 kg (16 lb) in Virginia; this is a maximum, not typical body mass."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/largemouth-bass/"
+    ]
+  },
+  {
+    "id": "bluegill",
+    "dexNumber": 19,
+    "name": "Bluegill",
+    "scientificName": "Lepomis macrochirus",
+    "group": "Fish",
+    "sprite": "bluegill",
+    "description": "A deep-bodied sunfish with a dark ear flap and vertical side bars. Colors shift among olive, blue, yellow, and silver.",
+    "habitats": [
+      "Pond",
+      "Lake",
+      "Warm river"
+    ],
+    "diet": [
+      "Insects",
+      "Small crustaceans",
+      "Worms",
+      "Small fish"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "No general adult length or mass range is supplied in the linked DWR profile; local fisheries samples are not used as species-wide ranges."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://dwr.virginia.gov/wildlife/information/bluegill/"
+    ]
+  },
+  {
+    "id": "channel-catfish",
+    "dexNumber": 20,
+    "name": "Channel Catfish",
+    "scientificName": "Ictalurus punctatus",
+    "group": "Fish",
+    "sprite": "channel-catfish",
+    "description": "A smooth-skinned fish with a deeply forked tail and sensitive barbels around its mouth. Deep pools provide useful shelter.",
+    "habitats": [
+      "River",
+      "Lake",
+      "Deep pool"
+    ],
+    "diet": [
+      "Invertebrates",
+      "Small fish",
+      "Plant material"
+    ],
+    "activity": "Nocturnal",
+    "size": {
+      "lengthCm": [
+        25.4,
+        50.8
+      ],
+      "weightKg": null,
+      "note": "NPS gives an average length range of approximately 25–51 cm (10–20 in). Larger fish occur."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/miss/learn/nature/channel-catfish-ictalurus-punctatus-and-flathead-catfish-pylodictis-olivaris.htm",
+      "https://www.nps.gov/bica/learn/nature/channel-catfish.htm",
+      "https://dwr.virginia.gov/reports/main-stem-shenandoah-river-biologist-report-2022/"
+    ]
+  },
+  {
+    "id": "monarch",
+    "dexNumber": 21,
+    "name": "Monarch Butterfly",
+    "scientificName": "Danaus plexippus",
+    "group": "Invertebrates",
+    "sprite": "monarch",
+    "description": "An orange-and-black butterfly with pale spots around its wing borders. Adults visit flowers; caterpillars depend on milkweed.",
+    "habitats": [
+      "Meadow",
+      "Garden",
+      "Open field"
+    ],
+    "diet": [
+      "Flower nectar (adult)",
+      "Milkweed (larva)"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "NPS gives wingspan around 8.4–9.4 cm (3.3–3.7 in). Wingspan is not body length."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/articles/monarch-butterfly.htm",
+      "https://www.nps.gov/band/learn/nature/id-of-common-butterflies.htm",
+      "https://dwr.virginia.gov/vbwt/sites/appomattox-county-park/"
+    ]
+  },
+  {
+    "id": "tiger-swallowtail",
+    "dexNumber": 22,
+    "name": "Eastern Tiger Swallowtail",
+    "scientificName": "Papilio glaucus",
+    "group": "Invertebrates",
+    "sprite": "tiger-swallowtail",
+    "description": "A broad-winged butterfly often yellow with bold black stripes and trailing hindwing tails. Some females have a dark color form.",
+    "habitats": [
+      "Meadow",
+      "Forest edge",
+      "Garden"
+    ],
+    "diet": [
+      "Flower nectar (adult)",
+      "Host-tree leaves (larva)"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "A sourced numeric size or mass range is not included in this starter entry."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/hafe/learn/nature/insects.htm",
+      "https://dwr.virginia.gov/blog/growing-eastern-tiger-swallowtails-and-other-wildlife/",
+      "https://irma.nps.gov/NPSpecies/Species/Profile/444777"
+    ]
+  },
+  {
+    "id": "green-darner",
+    "dexNumber": 23,
+    "name": "Common Green Darner",
+    "scientificName": "Anax junius",
+    "group": "Invertebrates",
+    "sprite": "green-darner",
+    "description": "A large dragonfly with a green thorax and a long abdomen. Males often show blue abdominal markings; immature and female colors vary.",
+    "habitats": [
+      "Pond",
+      "Wetland",
+      "Slow river"
+    ],
+    "diet": [
+      "Flying insects",
+      "Small aquatic prey (nymph)"
+    ],
+    "activity": "Diurnal",
+    "size": {
+      "lengthCm": null,
+      "weightKg": null,
+      "note": "The NPS reference reports wingspan around 9–10 cm. Its 68–78 mm measurement describes the abdomen, so it is not presented as total body length."
+    },
+    "regionIds": [
+      "mountains",
+      "valley",
+      "piedmont",
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/articles/000/common-green-darner.htm",
+      "https://dwr.virginia.gov/vbwt/sites/locher-tract/"
+    ]
+  },
+  {
+    "id": "horseshoe-crab",
+    "dexNumber": 24,
+    "name": "Atlantic Horseshoe Crab",
+    "scientificName": "Limulus polyphemus",
+    "group": "Invertebrates",
+    "sprite": "horseshoe-crab",
+    "description": "A marine arthropod with a rounded shield and a long, straight tail. Its coastal life connects shallow-water habitats and migrating shorebirds.",
+    "habitats": [
+      "Coastal water",
+      "Sandy shore",
+      "Estuary"
+    ],
+    "diet": [
+      "Small mollusks",
+      "Worms"
+    ],
+    "activity": "Variable",
+    "size": {
+      "lengthCm": [
+        35.6,
+        48.3
+      ],
+      "weightKg": null,
+      "note": "NPS reports about 36–38 cm for males and 46–48 cm for females, head to tail. This combined span hides the size difference between sexes."
+    },
+    "regionIds": [
+      "coastal"
+    ],
+    "regionNote": "Illustrative habitat association; not verified sightings or a distribution map.",
+    "sourceURLs": [
+      "https://www.nps.gov/articles/ncbn-species-spotlight-atlantic-horseshoe-crab.htm",
+      "https://www.nps.gov/caco/learn/nature/horseshoe-crabs.htm"
+    ]
+  }
+]

@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * The field journal.
+ *
+ * Available variables:
+ * - cards: Journal cards for this page, newest first.
+ * - pager: Drupal's pager.
+ */
+#}
+{% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
+<div class="journal-intro">
+  <p>A journal for the things you almost walked past.</p>
+  <a href="{{ path('naturedex.editor') }}" class="secondary-button">{{ nd.icon('pen', 16) }} Write a field note</a>
+</div>
+{% if cards %}
+  <div class="journal-grid">
+    {% for card in cards %}
+      {% include '@naturedex_core/naturedex-journal-card.html.twig' with {card: card, compact: false} only %}
+    {% endfor %}
+  </div>
+  <div class="journal-pagination">{{ pager }}</div>
+{% else %}
+  <div class="empty-state">
+    <h2>The first page is yours.</h2>
+    <p>Publish a field note from the writing desk to start your journal.</p>
+    <a href="{{ path('naturedex.editor') }}" class="primary-button">Open writing desk</a>
+  </div>
+{% endif %}

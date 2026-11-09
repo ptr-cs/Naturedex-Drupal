@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * A field note card.
+ *
+ * Available variables:
+ * - card: title, url, excerpt, category, and art (a species record or null).
+ * - compact: Whether this is the smaller card beside the guide.
+ */
+#}
+{% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
+<article class="journal-card{{ compact ? ' journal-compact' }}">
+  <a class="journal-cover" href="{{ card.url }}" tabindex="-1" aria-hidden="true">
+    <span class="journal-cover-grid"></span>
+    {% if card.art %}{{ nd.sprite(card.art, 120) }}{% endif %}
+    <span class="cover-stamp">FIELD<br>NOTES</span>
+  </a>
+  <div class="journal-card-copy">
+    <span class="eyebrow">{{ card.category|default('FIELD NOTES') }}</span>
+    <h3><a href="{{ card.url }}">{{ card.title }}</a></h3>
+    <p>{{ card.excerpt }}</p>
+    <a class="text-link" href="{{ card.url }}">Read field note {{ nd.icon('arrow', 15) }}</a>
+  </div>
+</article>

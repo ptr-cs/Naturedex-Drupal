@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - filter.format.field_note_text
+    - node.type.field_note
+  module:
+    - text
+id: node.field_note.field_body
+field_name: field_body
+entity_type: node
+bundle: field_note
+label: Body
+description: 'Separate paragraphs with a blank line. Start a line with ## for a section heading. HTML is shown as text.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - field_note_text
+field_type: text_long

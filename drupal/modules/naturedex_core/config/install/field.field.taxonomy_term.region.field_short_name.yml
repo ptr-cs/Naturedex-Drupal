@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_short_name
+    - taxonomy.vocabulary.region
+id: taxonomy_term.region.field_short_name
+field_name: field_short_name
+entity_type: taxonomy_term
+bundle: region
+label: Short name
+description: The label on the map pin.
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_regions
+    - node.type.species
+    - taxonomy.vocabulary.region
+id: node.species.field_regions
+field_name: field_regions
+entity_type: node
+bundle: species
+label: Regions
+description: 'Broad, illustrative habitat associations — not sightings or ranges.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      region: region
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

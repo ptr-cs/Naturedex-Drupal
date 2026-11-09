@@ -1,0 +1,17 @@
+## A familiar feeling. A real wild world.
+
+Naturedex is a field guide inspired by the curiosity and pixel-filled adventures of handheld games. Its creatures are real Virginia wildlife, and its illustrations are original.
+
+## How to read this guide
+
+The 24 entries are a curated starting collection across six animal groups, not a complete checklist of Virginia wildlife. Size measurements describe general adult ranges where a source supports them. Reference links are provided inside each entry.
+
+The map’s regions are broad habitat guides. Pins mark regions, not animal observations or precise distribution boundaries. They are intended to help you explore the collection.
+
+## Where your notes live
+
+Published field notes and species entries are stored in Drupal. Your discovery collection and sprite motion preference are saved only in this browser; they are not sent to the site or synchronized between devices.
+
+## Accessible exploration
+
+Every map region has a labeled button. You can explore the complete guide as a list, use the interface with a keyboard, and reduce motion through your device preferences. Automated testing supports this work; manual accessibility evaluation remains an ongoing task.

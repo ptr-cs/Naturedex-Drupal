@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Species
+type: species
+description: 'A field guide entry: one animal, its biology, regions, and references.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_color
+    - taxonomy.vocabulary.region
+id: taxonomy_term.region.field_color
+field_name: field_color
+entity_type: taxonomy_term
+bundle: region
+label: Legend color
+description: 'A hex color such as #8aab77.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
