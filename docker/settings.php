@@ -48,16 +48,6 @@ $config['system.performance']['cache']['page']['max_age'] = 300;
 $config['system.performance']['css']['preprocess'] = TRUE;
 $config['system.performance']['js']['preprocess'] = TRUE;
 
-// Requests arrive CloudFront -> load balancer -> here, over plain HTTP. Only
-// the load balancer can reach this container, and only CloudFront can reach
-// the load balancer, so CloudFront's own headers are trustworthy. They restore
-// the visitor's scheme (for secure cookies and links) and address (for login
-// flood control, which would otherwise see one address for everybody).
-if (($_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO'] ?? '') === 'https') {
-  $_SERVER['HTTPS'] = 'on';
-  $_SERVER['SERVER_PORT'] = '443';
-}
-if (preg_match('/^(.+):\d+$/', $_SERVER['HTTP_CLOUDFRONT_VIEWER_ADDRESS'] ?? '', $match)
-  && filter_var($match[1], FILTER_VALIDATE_IP)) {
-  $_SERVER['REMOTE_ADDR'] = $match[1];
-}
+// Restores the visitor's scheme and address from CloudFront's headers; see
+// naturedex_core's StackMiddleware\CloudFrontMiddleware.
+$settings['naturedex_cloudfront'] = TRUE;

@@ -22,6 +22,7 @@ if (backup.status !== 0 || !existsSync(database)) copyFileSync(defaultDatabase, 
 process.env.NATUREDEX_DB = database;
 // Production's page max-age, so the shared-cache headers are under test.
 process.env.NATUREDEX_PAGE_MAX_AGE = '300';
+process.env.NATUREDEX_CLOUDFRONT = '1';
 drupalTask(['test-users', join(testDir, 'sign-in-links.json')], { quiet: true });
 drupalTask(['rebuild'], { quiet: true });
 

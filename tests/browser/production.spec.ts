@@ -57,3 +57,17 @@ test.describe('the caching contract with CloudFront', () => {
     await editor.close();
   });
 });
+
+test('behind CloudFront, Drupal uses the visitor’s scheme for links and cookies', async ({ browser }) => {
+  const guest = await browser.newContext({ storageState: anonymous });
+  const canonical = async (headers: Record<string, string>) =>
+    /<link rel="canonical" href="([^"]+)"/.exec(await (await guest.request.get('/species/red-fox', { headers })).text())?.[1];
+  expect(await canonical({})).toMatch(/^http:\/\//);
+  expect(await canonical({ 'CloudFront-Forwarded-Proto': 'https', 'CloudFront-Viewer-Address': '198.51.100.7:51234' })).toMatch(
+    /^https:\/\/127\.0\.0\.1:\d+\/species\/red-fox$/,
+  );
+  // The secure variant of the fixed session cookie name.
+  const login = await guest.request.get('/user/login', { headers: { 'CloudFront-Forwarded-Proto': 'https' } });
+  expect(login.status()).toBe(200);
+  await guest.close();
+});

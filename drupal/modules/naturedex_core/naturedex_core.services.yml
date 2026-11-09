@@ -10,3 +10,8 @@ services:
   Drupal\naturedex_core\EventSubscriber\SharedCacheSubscriber:
     tags:
       - { name: event_subscriber }
+  Drupal\naturedex_core\StackMiddleware\CloudFrontMiddleware:
+    autowire: false
+    tags:
+      # Before the page cache (200), which keys cached pages on the scheme.
+      - { name: http_middleware, priority: 350 }

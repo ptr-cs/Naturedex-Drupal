@@ -117,6 +117,8 @@ $settings['update_free_access'] = FALSE;
 $settings['container_yamls'][] = ${JSON.stringify(join(root, 'drupal', 'local.services.yml'))};
 // Production sets 300 seconds; the browser tests use the same value.
 $config['system.performance']['cache']['page']['max_age'] = (int) getenv('NATUREDEX_PAGE_MAX_AGE');
+// The browser tests turn on production's CloudFront header handling.
+$settings['naturedex_cloudfront'] = (bool) getenv('NATUREDEX_CLOUDFRONT');
 $config['system.logging']['error_level'] = getenv('NATUREDEX_SHOW_ERRORS') ? 'verbose' : 'hide';
 `;
   writeFileSync(settings, `${base}\n${local}`);

@@ -59,7 +59,7 @@ Measured November 9, 2026, on Drupal 11.4.11, FrankenPHP 1.13.0 (PHP 8.5, Intel 
 | Automated tests | Passed |
 | --- | ---: |
 | Unit (Vitest), including PHP/TypeScript format parity | 22 of 22 |
-| Browser, API, accessibility (Playwright) | 31 of 31 |
+| Browser, API, accessibility (Playwright) | 32 of 32 |
 | AWS stack (CDK assertions) | 28 of 28 |
 | Production image on MySQL (smoke test) | Not run yet; runs in CI |
 

@@ -37,7 +37,9 @@ Everything is one stack, `NaturedexDrupal`, in **us-east-1**, the only region wh
 
 ## How Drupal sits behind CloudFront
 
-The hop from the load balancer to the container is plain HTTP, and the load balancer's address replaces the visitor's. `docker/settings.php` restores both from CloudFront's own headers. That is safe because only the load balancer can reach the container, and only CloudFront can reach the load balancer.
+The hop from the load balancer to the container is plain HTTP, and the load balancer's address replaces the visitor's. An HTTP middleware in `naturedex_core` (`CloudFrontMiddleware`, switched on by `docker/settings.php`) restores both from CloudFront's own headers, before Drupal's page cache sees the request. That is safe because only the load balancer can reach the container, and only CloudFront can reach the load balancer.
+
+Drupal's built-in reverse-proxy settings can't do this here: the load balancer overwrites `X-Forwarded-Proto` with `http`, and appends CloudFront's address to `X-Forwarded-For`. Changing `$_SERVER` in `settings.php` doesn't work either, because Drupal builds its request object before loading settings. The first CI smoke test caught that.
 
 | Header | Used for |
 | --- | --- |
@@ -161,7 +163,7 @@ RDS leaves a final snapshot, and the CloudTrail bucket is kept (it empties itsel
 
 ## What has not been tested
 
-- **The production image itself.** It is built and smoke-tested only in CI, which has not run. Locally verified: the install path the image uses (`drupal-task.php install` against a read-only `settings.php`), the CloudFront header handling in `settings.php`, the shared-cache headers, and the fixed session cookie.
+- **The production image itself.** It is built and smoke-tested only in CI, which has not run. Locally verified: the install path the image uses (`drupal-task.php install` against a read-only `settings.php`), the CloudFront header handling, the shared-cache headers, and the fixed session cookie.
 - **A deployment.** Nothing has been created in AWS.
 - The WAF rate limits, because triggering them would block the tester's address.
 - A restore from backup.
