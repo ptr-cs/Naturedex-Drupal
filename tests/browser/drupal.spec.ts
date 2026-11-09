@@ -15,7 +15,7 @@ async function editSpecies(page: Page, id: string, change: (page: Page) => Promi
 }
 
 test('correcting a species once in Drupal updates its card, page, and dialog for visitors', async ({ page, browser }) => {
-  const guest = await visitor(browser);
+  let guest = await visitor(browser);
   // Warm the page cache first, so the test proves the cache is cleared.
   await guest.page.goto('/');
   await expect(guest.page.getByRole('button', { name: 'View Red Fox', exact: true })).toBeVisible();
@@ -23,6 +23,9 @@ test('correcting a species once in Drupal updates its card, page, and dialog for
   const corrected = 'Red Fox (corrected)';
   try {
     await editSpecies(page, 'red-fox', (form) => form.getByLabel('Common name', { exact: true }).fill(corrected));
+    // A newly arriving visitor; see the ETag note in the next test.
+    await guest.context.close();
+    guest = await visitor(browser);
     await guest.page.goto('/');
     await guest.page.getByRole('button', { name: `View ${corrected}`, exact: true }).click();
     await expect(guest.page.getByRole('dialog', { name: corrected })).toBeVisible();
@@ -51,10 +54,15 @@ test('an unpublished species leaves public pages and returns intact when republi
     await expect(guest.page.getByRole('button', { name: /^View Eastern Tiger Swallowtail/ })).toBeVisible();
   } finally {
     await editSpecies(page, 'monarch', () => published.check());
+    await guest.context.close();
   }
-  await guest.page.goto('/journal/beyond-the-bright-wings');
-  await expect(guest.page.getByRole('button', { name: 'View Monarch Butterfly', exact: true })).toBeVisible();
-  await guest.context.close();
+  // A newly arriving visitor. The same browser could keep its old copy:
+  // Drupal's page cache uses the second a page was cached as its ETag, so a
+  // page cached again within that second revalidates as unchanged.
+  const next = await visitor(browser);
+  await next.page.goto('/journal/beyond-the-bright-wings');
+  await expect(next.page.getByRole('button', { name: 'View Monarch Butterfly', exact: true })).toBeVisible();
+  await next.context.close();
 });
 
 test('a note written in Drupal’s own form opens unchanged in the Writing desk', async ({ page, request }) => {

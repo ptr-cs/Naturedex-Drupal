@@ -91,6 +91,7 @@ Observed while building this. These are notes, not scores.
 - Unpublished nodes return 403 rather than 404, which reveals that a draft address exists. The page says the note is unavailable either way.
 - Generic term pages and listings (`/taxonomy/term/…`, `/node`) exist by default and had to be closed or disabled.
 - Behind CloudFront, Drupal needed the visitor's host, scheme, and address restored from CloudFront headers, and a fixed session cookie name so the edge can tell signed-in visitors apart. The WordPress edition needed the equivalent fixed cookie hash.
+- Drupal's page cache uses the second a page was cached as its `ETag`. If a page is cached, invalidated by a save, and cached again within one second, a browser revalidating its old copy is told it is unchanged. Only the fast CI runner hit this, in a test that saved and revisited immediately.
 - Core's quick-start installer only creates SQLite sites and refuses to run when `settings.php` exists. Calling `install_drupal()` directly serves both local SQLite and production MySQL.
 
 **Easier for deployment**
