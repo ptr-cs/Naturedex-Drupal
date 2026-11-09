@@ -6,7 +6,7 @@ It shares the account with the WordPress edition, so it was deployed with `ACCOU
 
 ## Recommendation
 
-Run Drupal as one container on ECS Fargate behind CloudFront, with RDS for MySQL. This is the WordPress edition's design, so the two can be compared, minus its file storage: Drupal keeps everything in the database. Expect **roughly $65–70 a month** at low traffic, or about $2.20 a day for a short run.
+Run Drupal as one container on ECS Fargate behind CloudFront, with RDS for MySQL. This is the WordPress edition's design, so the two can be compared, minus its file storage: Drupal keeps everything in the database. Expect **about $62–64 a month** at low traffic, or about $2.10 a day for a short run.
 
 ## Architecture
 
@@ -78,23 +78,28 @@ The last row needs a known cookie name. Drupal normally names the session cookie
 
 ## Monthly cost estimate
 
-On-demand, us-east-1, low traffic. These figures reuse the WordPress edition's unit rates, which were checked against the AWS public price list on November 6, 2026. They were not re-checked for this edition. Tax is not included.
+On-demand, us-east-1, low traffic, 730 hours a month. Unit rates were checked against the AWS Price List API on November 9, 2026. Usage behind the small items is estimated, and tax is not included.
 
-| Item | Per month |
-| --- | ---: |
-| Load balancer, including light usage | $17.50 |
-| Fargate, one task around the clock | $14.40 |
-| RDS `db.t4g.micro` and 20 GB gp3 | $14.00 |
-| WAF: ACL, 6 rules, requests | $11.50 |
-| Public IPv4 address for the task | $3.65 |
-| Logs, ECR, alarms | $2.00 |
-| GuardDuty (free for 30 days) and CloudTrail, if `accountAuditing` is on | $2–5 |
-| Secrets Manager, 3 secrets | $1.20 |
-| Hourly cron tasks | $0.30 |
-| CloudFront at low traffic | $0–1 |
-| **Total** | **about $66–70** |
+| Item | Rate | Per month |
+| --- | --- | ---: |
+| Load balancer | $0.0225/hour, plus $0.008 per capacity-unit hour | $16.50–17 |
+| Fargate, one ARM task (0.5 vCPU, 1 GB) | $0.03238 per vCPU-hour, $0.00356 per GB-hour | $14.42 |
+| RDS `db.t4g.micro`, Single-AZ | $0.016/hour | $11.68 |
+| RDS storage, 20 GB gp3 | $0.115 per GB-month; backups up to 20 GB are free | $2.30 |
+| WAF: web ACL and 6 rules | $5 per ACL, $1 per rule, $0.60 per million requests | $11.00 |
+| Public IPv4 address for the task | $0.005/hour | $3.65 |
+| Secrets Manager, 3 secrets | $0.40 each | $1.20 |
+| CloudWatch: 3 alarms, task and WAF logs | $0.10 per alarm, plus light log ingestion | about $1 |
+| Hourly cron tasks (about a minute each) | Fargate rates | $0.25 |
+| ECR image (about 210 MB per deployed version) | Storage per GB-month | under $0.10 |
+| CloudFront | Inside the always-free tier at this traffic | $0 |
+| **Total** | | **about $62–64** |
 
-Running for 7 days costs about $15; 14 days about $31. After `cdk destroy`, the retained RDS snapshot ($0.095 per GB-month), the audit bucket, and some logs keep billing until deleted by hand. Spending limits are set as AWS budgets on the account, not in this stack.
+That is about **$2.10 a day**: roughly $15 for a week, $30 for two weeks.
+
+GuardDuty and CloudTrail are not counted, because the WordPress stack provides them for the whole account. If this stack runs alone with `ACCOUNT_AUDITING=true`, add about $2–5.
+
+The fixed costs dominate: the load balancer, the task, the database, and the WAF are about 90% of the bill whatever the traffic. After `cdk destroy`, the retained 20 GB database snapshot costs about $1.90 a month ($0.095 per GB-month) until deleted. Spending limits are set as AWS budgets on the account, not in this stack.
 
 ## Deployment
 
