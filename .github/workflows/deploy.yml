@@ -18,6 +18,9 @@ jobs:
     # ARM, because the image is built here for ARM Fargate tasks.
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 55
+    # Waits for a reviewer's approval, and only runs from main. AWS trusts
+    # tokens issued for this environment and nothing else (infra/github-oidc.yaml).
+    environment: production
     defaults:
       run:
         working-directory: infra

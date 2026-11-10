@@ -49,7 +49,9 @@ test.describe('the caching contract with CloudFront', () => {
     await guest.close();
 
     const editor = await browser.newContext({ storageState: 'tests/.auth/editor.json' });
-    expect((await editor.storageState()).cookies.map((cookie) => cookie.name)).toContain('SESSnaturedex');
+    const session = (await editor.storageState()).cookies.find((cookie) => cookie.name === 'SESSnaturedex');
+    // Ends with the browser rather than core's 23 days.
+    expect(session?.expires).toBe(-1);
     for (const path of ['/', '/editor']) {
       const response = await editor.request.get(path);
       expect(response.headers()['cache-control'], path).toMatch(/private|no-cache/);
@@ -69,5 +71,12 @@ test('behind CloudFront, Drupal uses the visitor’s scheme for links and cookie
   // The secure variant of the fixed session cookie name.
   const login = await guest.request.get('/user/login', { headers: { 'CloudFront-Forwarded-Proto': 'https' } });
   expect(login.status()).toBe(200);
+  await guest.close();
+});
+
+test('responses don’t advertise Drupal', async ({ browser }) => {
+  const guest = await browser.newContext({ storageState: anonymous });
+  for (const path of ['/', '/user/login', '/no-such-trail'])
+    expect((await guest.request.get(path)).headers()['x-generator'], path).toBeUndefined();
   await guest.close();
 });

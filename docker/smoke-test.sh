@@ -6,6 +6,7 @@ set -eu
 image="$1"
 network=naturedex-smoke
 password=smoke-test-only
+app_password=smoke-test-only-app
 base=http://127.0.0.1:8080
 
 cleanup() {
@@ -18,18 +19,21 @@ cleanup() {
   exit "$status"
 }
 trap cleanup EXIT
+fail_early() {
+  echo "FAIL $*"
+  exit 1
+}
 
 docker network create "$network" >/dev/null
 docker run -d --name naturedex-db --network "$network" \
   -e MYSQL_ROOT_PASSWORD="$password" -e MYSQL_DATABASE=drupal \
-  -e MYSQL_USER=naturedex -e MYSQL_PASSWORD="$password" \
   mysql:8.4 --require-secure-transport=ON >/dev/null
 
 echo 'Waiting for MySQL'
 for _ in $(seq 1 60); do
-  # Over TCP as the app user: the image's first start also runs a socket-only
-  # server, which would otherwise look ready too early.
-  docker exec naturedex-db mysql -h127.0.0.1 -unaturedex -p"$password" -e 'SELECT 1' drupal >/dev/null 2>&1 && break
+  # Over TCP: the image's first start also runs a socket-only server, which
+  # would otherwise look ready too early.
+  docker exec naturedex-db mysql -h127.0.0.1 -uroot -p"$password" -e 'SELECT 1' drupal >/dev/null 2>&1 && break
   sleep 2
 done
 
@@ -37,17 +41,26 @@ done
 # the server; only verification is off, here and nowhere else.
 set -- --network "$network" \
   -e NATUREDEX_DB_NAME=drupal -e NATUREDEX_DB_HOST=naturedex-db \
-  -e NATUREDEX_DB_USER=naturedex -e NATUREDEX_DB_PASSWORD="$password" \
+  -e NATUREDEX_DB_USER=naturedex_app -e NATUREDEX_DB_PASSWORD="$app_password" \
   -e NATUREDEX_DB_VERIFY_CERT=false \
   -e NATUREDEX_HASH_SALT=smoke-test-only-salt-smoke-test-only-salt \
   -e NATUREDEX_HOSTS=127.0.0.1,localhost
 
+# Like RDS: only the bootstrap task gets the master login, which it uses to
+# create the account everything else connects as.
+master='-e NATUREDEX_DB_ADMIN_USER=root -e NATUREDEX_DB_ADMIN_PASSWORD='"$password"
 echo 'Running the bootstrap task'
-docker run --rm "$@" -e NATUREDEX_ADMIN_USER=naturedex-admin -e NATUREDEX_ADMIN_PASSWORD="$password-admin" "$image" naturedex-bootstrap
+# shellcheck disable=SC2086
+docker run --rm "$@" $master -e NATUREDEX_ADMIN_USER=naturedex-admin -e NATUREDEX_ADMIN_PASSWORD="$password-admin" "$image" naturedex-bootstrap
 echo 'Running it again, which must change nothing'
-docker run --rm "$@" -e NATUREDEX_ADMIN_PASSWORD="$password-admin" "$image" naturedex-bootstrap | tee /tmp/naturedex-second-run
+# shellcheck disable=SC2086
+docker run --rm "$@" $master -e NATUREDEX_ADMIN_PASSWORD="$password-admin" "$image" naturedex-bootstrap | tee /tmp/naturedex-second-run
 grep -q 'Drupal is already installed.' /tmp/naturedex-second-run
 grep -q 'Seed data already present; nothing imported.' /tmp/naturedex-second-run
+grants=$(docker exec naturedex-db mysql -h127.0.0.1 -uroot -p"$password" -N -e "SHOW GRANTS FOR 'naturedex_app'@'%'" 2>/dev/null)
+echo "$grants" | grep -q 'ON `drupal`\.\*' || fail_early "the app account should have rights on drupal.*: $grants"
+echo "$grants" | grep -q 'ON \*\.\*.*\(SELECT\|ALL\)' && fail_early "the app account must not have global rights: $grants"
+echo 'ok   Drupal connects with an account limited to its own database'
 
 echo 'Running the scheduled task command'
 docker run --rm "$@" "$image" naturedex-task cron | grep -q 'Cron ran.'
@@ -91,6 +104,12 @@ expect /node 404
 expect /core/install.php 403
 expect /update.php 403
 expect /core/rebuild.php 403
+expect /core/CHANGELOG.txt 403
+expect /core/INSTALL.txt 403
+expect /README.md 403
+expect /robots.txt 200
+expect /user/1 404
+expect /user/99999 404
 contains / 'Meet your wild neighbors'
 contains /api/naturedex/regions 'Blue Ridge'
 count=$(curl -s "$base/api/naturedex/species" | grep -o '"dexNumber"' | wc -l)
@@ -103,6 +122,8 @@ echo 'ok   public pages are cacheable at the edge only'
 server=$(curl -sI "$base/" | tr -d '\r' | awk 'tolower($1)=="server:"{print $2}')
 [ "$server" = Apache ] || fail "server header reveals a version: $server"
 echo 'ok   server header hides the version'
+curl -sI "$base/" | grep -qi '^x-generator' && fail 'responses must not send X-Generator'
+echo 'ok   no X-Generator header'
 css=$(curl -s "$base/" | sed -n 's/.*<link rel="stylesheet" media="all" href="\([^"]*\)".*/\1/p' | head -1 | sed 's/&amp;/\&/g')
 [ -n "$css" ] || fail 'no stylesheet link'
 expect "$css" 200
@@ -120,7 +141,8 @@ cookie=$(curl -s -o /dev/null -D - $cf "$base$login" | tr -d '\r' | grep -i '^se
 [ -n "$cookie" ] || fail 'expected the fixed SSESSnaturedex session cookie'
 echo "$cookie" | grep -qi 'secure' || fail 'session cookie must be Secure'
 echo "$cookie" | grep -qi 'httponly' || fail 'session cookie must be HttpOnly'
-echo 'ok   signed in with a Secure, HttpOnly SSESSnaturedex cookie'
+echo "$cookie" | grep -qi 'expires=' && fail 'the session cookie should end with the browser'
+echo 'ok   signed in with a Secure, HttpOnly SSESSnaturedex cookie that ends with the browser'
 # curl won't send a Secure cookie over plain HTTP from a jar, so pass it directly.
 session="Cookie: $(echo "$cookie" | sed 's/^[Ss]et-[Cc]ookie: \([^;]*\);.*/\1/')"
 # shellcheck disable=SC2086
@@ -136,7 +158,7 @@ created=$(curl -s -o /dev/null -w '%{http_code}' -H "$session" $cf -X POST \
   "$base/api/naturedex/posts")
 [ "$created" = 201 ] || fail "creating a draft through the API: expected 201, got $created"
 echo 'ok   a draft saves to MySQL through the API'
-docker exec naturedex-db mysql -h127.0.0.1 -unaturedex -p"$password" drupal -N \
+docker exec naturedex-db mysql -h127.0.0.1 -uroot -p"$password" drupal -N \
   -e "SELECT hostname FROM sessions ORDER BY timestamp DESC LIMIT 1" 2>/dev/null | grep -q '^198.51.100.7$' \
   || fail 'the session should record the visitor address from CloudFront'
 echo 'ok   the visitor address comes from CloudFront'

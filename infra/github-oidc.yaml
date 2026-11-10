@@ -54,9 +54,10 @@ Resources:
             Condition:
               StringEquals:
                 token.actions.githubusercontent.com:aud: sts.amazonaws.com
-                # Only the main branch of this repository, so pull requests
-                # and forks can't deploy.
-                token.actions.githubusercontent.com:sub: !Sub repo:${Repository}:ref:refs/heads/main
+                # Only jobs in this repository's production environment,
+                # which needs a reviewer's approval and allows only main, so
+                # pull requests, forks, and unapproved runs can't deploy.
+                token.actions.githubusercontent.com:sub: !Sub repo:${Repository}:environment:production
       Policies:
         - PolicyName: use-cdk-roles
           PolicyDocument:

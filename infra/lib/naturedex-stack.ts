@@ -51,6 +51,8 @@ export interface NaturedexStackProps extends StackProps {
 
 const containerName = 'drupal';
 const databaseName = 'drupal';
+/** Created by the bootstrap task (docker/db-user.php) with rights on databaseName only. */
+export const appDatabaseUser = 'naturedex_app';
 /** Must match naturedex_core's Session\SessionConfiguration over HTTPS. */
 export const sessionCookie = 'SSESSnaturedex';
 // com.amazonaws.global.cloudfront.origin-facing in us-east-1. Prefix list IDs
@@ -125,6 +127,8 @@ export class NaturedexStack extends Stack {
       description: 'Drupal hash_salt: one-time login links, form tokens, and more',
       generateSecretString: { passwordLength: 64, excludePunctuation: true },
     });
+    // Drupal connects as this account, never as the RDS master user.
+    const appDatabaseSecret = new rds.DatabaseSecret(this, 'AppDatabaseUser', { username: appDatabaseUser });
     const adminPassword = new secretsmanager.Secret(this, 'AdminPassword', {
       description: 'First Drupal administrator password',
       generateSecretString: { passwordLength: 32 },
@@ -269,7 +273,7 @@ export class NaturedexStack extends Stack {
         },
       });
 
-    const databaseSecret = database.secret!;
+    const masterSecret = database.secret!;
     const containerBase = {
       image: ecs.ContainerImage.fromAsset(repositoryRoot, {
         file: 'docker/Dockerfile',
@@ -288,8 +292,8 @@ export class NaturedexStack extends Stack {
       },
     };
     const siteSecrets = {
-      NATUREDEX_DB_USER: ecs.Secret.fromSecretsManager(databaseSecret, 'username'),
-      NATUREDEX_DB_PASSWORD: ecs.Secret.fromSecretsManager(databaseSecret, 'password'),
+      NATUREDEX_DB_USER: ecs.Secret.fromSecretsManager(appDatabaseSecret, 'username'),
+      NATUREDEX_DB_PASSWORD: ecs.Secret.fromSecretsManager(appDatabaseSecret, 'password'),
       NATUREDEX_HASH_SALT: ecs.Secret.fromSecretsManager(hashSalt),
     };
 
@@ -300,14 +304,20 @@ export class NaturedexStack extends Stack {
       secrets: siteSecrets,
     });
 
-    // The admin password is only needed to install Drupal, so the container
-    // that faces visitors never holds it.
+    // The admin password and the database master login are only needed to
+    // create the database account and install Drupal, so the container that
+    // faces visitors never holds them.
     const bootstrapTask = taskDefinition('BootstrapTask');
     bootstrapTask.addContainer(containerName, {
       ...containerBase,
       command: ['naturedex-bootstrap'],
       environment: { ...containerBase.environment, NATUREDEX_ADMIN_USER: 'naturedex-admin' },
-      secrets: { ...siteSecrets, NATUREDEX_ADMIN_PASSWORD: ecs.Secret.fromSecretsManager(adminPassword) },
+      secrets: {
+        ...siteSecrets,
+        NATUREDEX_DB_ADMIN_USER: ecs.Secret.fromSecretsManager(masterSecret, 'username'),
+        NATUREDEX_DB_ADMIN_PASSWORD: ecs.Secret.fromSecretsManager(masterSecret, 'password'),
+        NATUREDEX_ADMIN_PASSWORD: ecs.Secret.fromSecretsManager(adminPassword),
+      },
     });
 
     const taskSecurityGroup = new ec2.SecurityGroup(this, 'TaskSg', {
@@ -328,7 +338,9 @@ export class NaturedexStack extends Stack {
       vpcSubnets: publicSubnets,
       securityGroups: [taskSecurityGroup],
       circuitBreaker: { enable: true, rollback: true },
-      enableExecuteCommand: true,
+      // No ECS Exec: it would give a root shell in the web container. One-off
+      // commands run as separate tasks instead; see docs/deployment-aws.md.
+      enableExecuteCommand: false,
       healthCheckGracePeriod: Duration.seconds(60),
     });
     const targets = listener.addTargets('Drupal', {

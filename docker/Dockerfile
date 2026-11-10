@@ -30,6 +30,7 @@ COPY --from=frontend /build/drupal/themes/naturedex/assets/dist themes/custom/na
 COPY docker/settings.php sites/default/settings.php
 COPY data /opt/naturedex/data
 COPY scripts/drupal-task.php /opt/naturedex/scripts/drupal-task.php
+COPY docker/db-user.php /opt/naturedex/scripts/db-user.php
 # Generated CSS/JS aggregates and compiled templates. Drupal recreates them on
 # demand, so each task keeps its own and nothing needs shared storage.
 RUN mkdir -p sites/default/files /opt/naturedex/config-sync \

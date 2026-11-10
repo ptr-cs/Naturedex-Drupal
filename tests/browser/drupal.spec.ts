@@ -113,5 +113,8 @@ test('generic Drupal listings and term pages are closed to visitors', async ({ b
   const guest = await visitor(browser);
   for (const path of ['/node', '/taxonomy/term/1', '/user/1', '/admin/content'])
     expect((await guest.page.goto(path))?.status(), path).toBeGreaterThanOrEqual(403);
+  // An existing account and a missing one look the same, so IDs can't be counted.
+  for (const path of ['/user/1', '/user/1/edit', '/user/99999'])
+    expect((await guest.page.goto(path))?.status(), path).toBe(404);
   await guest.context.close();
 });

@@ -10,6 +10,9 @@ services:
   Drupal\naturedex_core\EventSubscriber\SharedCacheSubscriber:
     tags:
       - { name: event_subscriber }
+  Drupal\naturedex_core\EventSubscriber\HideAccountsSubscriber:
+    tags:
+      - { name: event_subscriber }
   Drupal\naturedex_core\StackMiddleware\CloudFrontMiddleware:
     autowire: false
     tags:

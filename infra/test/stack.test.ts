@@ -94,6 +94,32 @@ describe('the Naturedex Drupal AWS stack', () => {
     expect(secrets(install)).toContain('NATUREDEX_ADMIN_PASSWORD');
   });
 
+  it('connects the web container as its own database account, never the master user', () => {
+    const containers = Object.values(template.findResources('AWS::ECS::TaskDefinition')).map(
+      (definition) => definition.Properties.ContainerDefinitions[0],
+    );
+    const web = containers.find((container) => container.PortMappings?.length);
+    const install = containers.find((container) => container.Command?.includes('naturedex-bootstrap'));
+    // The RDS-generated master login, as tasks reference it.
+    const [masterSecret] = Object.keys(template.findResources('AWS::SecretsManager::SecretTargetAttachment'));
+    const references = (container: { Secrets: Array<{ Name: string; ValueFrom: unknown }> }) =>
+      JSON.stringify(container.Secrets.filter((entry) => entry.Name.startsWith('NATUREDEX_DB')));
+    expect(masterSecret).toBeTruthy();
+    expect(references(web)).not.toContain(masterSecret);
+    expect(references(install)).toContain(masterSecret);
+    expect(install.Secrets.map((entry: { Name: string }) => entry.Name)).toEqual(
+      expect.arrayContaining(['NATUREDEX_DB_ADMIN_USER', 'NATUREDEX_DB_ADMIN_PASSWORD']),
+    );
+    template.hasResourceProperties('AWS::SecretsManager::Secret', {
+      GenerateSecretString: Match.objectLike({ SecretStringTemplate: JSON.stringify({ username: 'naturedex_app' }) }),
+    });
+  });
+
+  it('offers no shell into the running site', () => {
+    const [service] = Object.values(template.findResources('AWS::ECS::Service'));
+    expect(service.Properties.EnableExecuteCommand).toBe(false);
+  });
+
   it('trusts only the hosts CloudFront serves', () => {
     const web = Object.values(template.findResources('AWS::ECS::TaskDefinition'))
       .map((definition) => definition.Properties.ContainerDefinitions[0])

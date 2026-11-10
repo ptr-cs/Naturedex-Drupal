@@ -71,7 +71,12 @@ The last row needs a known cookie name. Drupal normally names the session cookie
 - The install and update scripts are blocked at both the WAF and Apache. Between stack creation and the bootstrap task the database is empty, and the web installer would let anyone claim the site.
 - The database connection requires TLS (a parameter group setting) and **verifies the server certificate** against the RDS CA bundle, which the image pins by checksum.
 - Audit trail: CloudTrail with file validation (kept 90 days in S3), GuardDuty, and WAF logs of every request (kept 30 days). Severe GuardDuty findings go to the alarm topic. WAF logs redact `cookie`, `authorization`, and `x-csrf-token`. An account can have only one GuardDuty detector, so set `ACCOUNT_AUDITING=false` if the WordPress edition's stack is still running.
-- The admin password exists only in the one-off bootstrap task, not in the container that serves visitors.
+- The admin password and the RDS master login exist only in the one-off bootstrap task, not in the container that serves visitors. Drupal connects as `naturedex_app`, which the bootstrap task creates (`docker/db-user.php`) with rights on the `drupal` database only, and which must use TLS.
+- There is no ECS Exec, so nobody can open a shell in the running site. One-off commands run as separate tasks.
+- Sessions: the cookie ends when the browser closes, and Drupal forgets a session after 12 idle hours (core keeps both for 23 days).
+- Less fingerprinting: no `X-Generator` header; core's `CHANGELOG.txt`, `INSTALL.txt`, and readmes return 403; `/user/1` and a missing account both return 404, so accounts can't be counted.
+- Deploys need approval: the Deploy workflow runs in the `production` GitHub environment, which requires a reviewer and allows only `main`, and the AWS role trusts only that environment's tokens. A branch ruleset blocks force-pushes to and deletion of `main`. Dependabot alerts and security updates are on.
+- A daily workflow (`drupal-security.yml`) fails, and so emails the repository owner, when the pinned Drupal release is marked insecure, a newer security release exists on its branch, or the branch loses support.
 - Tasks can reach only HTTPS and the database outbound.
 - Security headers, including the CSP, are sent by CloudFront. A browser test loads public pages under that exact CSP.
 - Code can't change on the server, and Drupal updates arrive only through a new image. Account registration is administrator-only.
@@ -127,13 +132,23 @@ gh variable set ACCOUNT_AUDITING --body false
 gh variable set ALARM_EMAIL --body you@example.com
 ```
 
-The role trusts only the `main` branch of this repository, and can only assume the CDK bootstrap roles.
+The role trusts only jobs in this repository's `production` environment, and can only assume the CDK bootstrap roles. Create the environment before the first deploy, with yourself as reviewer and `main` as the only allowed branch:
+
+```sh
+gh api -X PUT repos/OWNER/NAME/environments/production --input - <<'JSON'
+{"reviewers":[{"type":"User","id":YOUR_USER_ID}],"prevent_self_review":false,
+ "deployment_branch_policy":{"protected_branches":false,"custom_branch_policies":true}}
+JSON
+gh api -X POST repos/OWNER/NAME/environments/production/deployment-branch-policies -f name=main -f type=branch
+```
 
 ### Each deployment
 
 ```sh
 gh workflow run deploy.yml
 ```
+
+Then approve it in the run's page on GitHub (or `gh api` the pending deployment).
 
 ### First install
 
@@ -145,15 +160,23 @@ aws ecs run-task --cluster CLUSTER --task-definition BOOTSTRAP_TASK_ARN \
   --network-configuration 'awsvpcConfiguration={subnets=[SUBNET_IDS],securityGroups=[TASK_SG],assignPublicIp=ENABLED}'
 ```
 
-It installs Drupal into RDS, enables the module and themes, and imports the seed content. It's safe to repeat: it skips what exists and only adds missing seeds. Sign in at `/user/login` as `naturedex-admin`; read the password with `aws secretsmanager get-secret-value --secret-id ADMIN_PASSWORD_SECRET_ARN`. Create editor and contributor accounts at `/admin/people`.
+It creates Drupal's database account, installs Drupal into RDS, enables the module and themes, and imports the seed content. It's safe to repeat: it skips what exists and only adds missing seeds. Sign in at `/user/login` as `naturedex-admin`; read the password with `aws secretsmanager get-secret-value --secret-id ADMIN_PASSWORD_SECRET_ARN`. Create editor and contributor accounts at `/admin/people`.
 
 ## Operations
 
 **Release.** The Deploy workflow builds the image and rolls it out. A new task must pass health checks before the old one stops, and a failing release rolls back automatically.
 
-**Drupal or PHP updates.** Change the image tag in `docker/Dockerfile` and `DRUPAL_VERSION` in `scripts/runtime.mjs`, run `npm run verify`, then deploy. If the release has database updates, run them once through ECS Exec (`update.php` is blocked), for example with a temporary `composer require drush/drush && vendor/bin/drush updatedb`. Nothing updates itself, so watch Drupal's security advisories. Redeploying also rebuilds the image with current OS updates.
+**Drupal or PHP updates.** Change the image tag in `docker/Dockerfile` and `DRUPAL_VERSION` in `scripts/runtime.mjs`, run `npm run verify`, then deploy. If the release has database updates, run them once as a one-off task (`update.php` is blocked), for example with a temporary `composer require drush/drush && vendor/bin/drush updatedb`. Nothing on the site updates itself; the daily `drupal-security.yml` workflow says when a security release is waiting. Redeploying also rebuilds the image with current OS updates, so redeploy when Debian fixes the image's open CVEs (ECR scans each pushed image).
 
-**One-off commands.** `aws ecs execute-command` into the running task, then `naturedex-task rebuild` (clear caches) or `naturedex-task cron`.
+**One-off commands.** Run the web task definition as a separate task with a different command, for example `naturedex-task rebuild` (clear caches):
+
+```sh
+aws ecs run-task --cluster CLUSTER --task-definition WEB_TASK_FAMILY --launch-type FARGATE \
+  --network-configuration 'awsvpcConfiguration={subnets=[SUBNET_IDS],securityGroups=[TASK_SG],assignPublicIp=ENABLED}' \
+  --overrides '{"containerOverrides":[{"name":"drupal","command":["naturedex-task","rebuild"]}]}'
+```
+
+Its output is in the task's CloudWatch log stream. ECS Exec is off; turning it on (`enableExecuteCommand`) would also need session logging.
 
 **Backups.** RDS keeps 7 days of point-in-time recovery, and the database is the only state. Do one restore drill early.
 
@@ -182,6 +205,14 @@ RDS leaves a final snapshot, and the CloudTrail bucket is kept (it empties itsel
 | --- | --- | --- |
 | Links used `http` behind CloudFront | Drupal builds its request before loading `settings.php`, so changing `$_SERVER` there came too late | A middleware updates the request before the page cache |
 | A republished species looked stale in one browser test, on CI only | Drupal's page cache uses the second a page was cached as its `ETag`; a page cached twice in one second revalidates as unchanged | Check as a newly arriving visitor |
+
+### Security hardening, November 10, 2026
+
+An audit of the running deployment found no critical or high issues. These followed from it: the separate database account, no ECS Exec, shorter sessions, less fingerprinting, deploy approval through a GitHub environment, a branch ruleset, Dependabot, and the daily release check. Not changed:
+
+- Sign-in is still password-only. Drupal core has no second factor; a WAF IP allowlist for `/user/login` and `/admin*` would work but would lock out sign-ins from other networks. The password is 32 random characters, and the WAF and Drupal both limit attempts.
+- TLS 1.0 and 1.1 are accepted on the default `*.cloudfront.net` certificate. Only a custom domain can use `TLSv1.2_2021`, which the stack applies when one is configured.
+- The base image has open Debian CVEs with no fix yet (libxml2, glibc, cyrus-sasl2). The site never parses visitors' XML. Redeploying picks up fixes once Debian ships them.
 
 ### What has not been tested
 
