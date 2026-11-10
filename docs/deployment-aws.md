@@ -214,6 +214,8 @@ An audit of the running deployment found no critical or high issues. These follo
 - TLS 1.0 and 1.1 are accepted on the default `*.cloudfront.net` certificate. Only a custom domain can use `TLSv1.2_2021`, which the stack applies when one is configured.
 - The base image has open Debian CVEs with no fix yet (libxml2, glibc, cyrus-sasl2). The site never parses visitors' XML. Redeploying picks up fixes once Debian ships them.
 
+Checked on the live site after deploying: pages and the API work through the new database account; `/user/1`, `/user/1/edit`, and a missing account all return 404; the release notes and readme return 403 (CloudFront had cached them for a day, so `/core/*` was invalidated once); no `X-Generator`; signing in sets a `Secure`, `HttpOnly` session cookie with no expiry date; the service reports ECS Exec off; and the deploy ran only after approval in the `production` environment.
+
 ### What has not been tested
 
 - The WAF rate limits, because triggering them would block the tester's address.
