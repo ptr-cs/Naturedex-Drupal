@@ -120,6 +120,8 @@ $config['system.performance']['cache']['page']['max_age'] = (int) getenv('NATURE
 // The browser tests turn on production's CloudFront header handling.
 $settings['naturedex_cloudfront'] = (bool) getenv('NATUREDEX_CLOUDFRONT');
 $config['system.logging']['error_level'] = getenv('NATUREDEX_SHOW_ERRORS') ? 'verbose' : 'hide';
+// The browser tests point /status at fake GitHub responses in this folder.
+$settings['naturedex_status_fixtures'] = getenv('NATUREDEX_STATUS_FIXTURES') ?: NULL;
 `;
   writeFileSync(settings, `${base}\n${local}`);
 }

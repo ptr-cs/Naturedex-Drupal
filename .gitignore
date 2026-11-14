@@ -6,3 +6,4 @@ drupal/themes/naturedex/assets/dist/
 tests/.auth/
 test-results/
 playwright-report/
+reports/

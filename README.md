@@ -58,6 +58,12 @@ The Writing desk uses Drupal sessions and Drupal's own `X-CSRF-Token` header. Ev
 
 **Your browser.** The discovery collection and motion preference stay in local storage. Neither reaches Drupal.
 
+## System status
+
+`/status` shows live site checks (website, database, hourly cron, and the daily Drupal security-release check), test counts, and recent deployments. CI publishes a sanitized summary to the `status` branch (the first run on `main` creates it), and Drupal reads that plus GitHub's public workflow history, caching the result for 5 minutes. The page skips Drupal's own page cache, which ignores max-age, and tells CloudFront to keep it for 5 minutes instead.
+
+The page is deliberately limited. It shows counts and yes-or-no results only, never test names, errors, logs, versions, or infrastructure details. Those rules are enforced in `Drupal\naturedex_core\Status`, which treats its inputs as untrusted, and in `tests/browser/status.spec.ts`, which runs against hostile stand-ins for GitHub (`tests/status-fixtures.mjs`).
+
 ## API
 
 Under `/api/naturedex`, JSON only:

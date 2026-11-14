@@ -53,6 +53,13 @@ final class PageContext {
       'description' => 'An original, pocket-sized guide to the animals that make Virginia home.',
       'stamp' => 'globe',
     ],
+    'status' => [
+      'crumb' => 'SYSTEM STATUS',
+      'eyebrow' => 'BEHIND THE SCENES',
+      'title' => 'System status.',
+      'description' => 'How the site, its tests, and its deployments are doing.',
+      'stamp' => '',
+    ],
     'account' => [
       'crumb' => 'WRITING DESK',
       'eyebrow' => 'FOR EDITORS AND CONTRIBUTORS',
@@ -82,6 +89,7 @@ final class PageContext {
     'journal' => 'Field journal',
     'editor' => 'Writing desk',
     'about' => 'About',
+    'status' => 'System status',
     'account' => 'Sign in',
     'not_found' => 'Not found',
     'access_denied' => 'Access denied',
@@ -93,7 +101,7 @@ final class PageContext {
   ) {}
 
   /**
-   * guide, map, journal, article, species, editor, about, page, account,
+   * guide, map, journal, article, species, editor, about, status, page, account,
    * not_found, or access_denied.
    */
   public function view(): string {
@@ -104,6 +112,7 @@ final class PageContext {
       $route === 'naturedex.map' => 'map',
       $route === 'naturedex.journal' => 'journal',
       $route === 'naturedex.editor' => 'editor',
+      $route === 'naturedex.status' => 'status',
       $route === 'naturedex.not_found', $route === 'system.404' => 'not_found',
       $route === 'naturedex.access_denied', $route === 'system.403' => 'access_denied',
       str_starts_with($route, 'user.') => 'account',

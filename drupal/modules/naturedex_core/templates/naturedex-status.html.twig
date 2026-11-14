@@ -1,0 +1,93 @@
+{#
+/**
+ * @file
+ * Public system status. See Drupal\naturedex_core\Status for what may appear
+ * here and why.
+ *
+ * Available variables:
+ * - report: overall, checks, tests, deployments, stale, and checkedAt.
+ */
+#}
+{% macro when(time) %}{{ time ? time|format_date('custom', 'M j, g:i a T') : 'Unknown' }}{% endmacro %}
+{% set good = report.overall == 'operational' %}
+{% set tests = report.tests %}
+<div class="status-banner {{ good ? 'status-good' : 'status-bad' }}">
+  <strong>{{ good ? '✓ All systems healthy' : '! Something needs attention' }}</strong>
+  <span>Checked {{ _self.when(report.checkedAt) }}. This page can be up to 5 minutes old.</span>
+</div>
+{% if report.stale %}
+  <p class="fine-print status-note">Test and deployment history couldn’t be refreshed just now, so the latest saved results are shown.</p>
+{% endif %}
+
+<div class="status-grid">
+  <section class="panel status-panel" aria-labelledby="status-site">
+    <h2 id="status-site">Live site</h2>
+    <ul class="status-list">
+      {% for check in report.checks %}
+        <li>
+          <span>{{ check.label }}</span>
+          <span class="status-pill {{ check.ok ? 'status-pass' : 'status-fail' }}">{{ check.text }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="panel status-panel" aria-labelledby="status-tests">
+    <h2 id="status-tests">Latest test run</h2>
+    {% if tests %}
+      <table class="status-table">
+        <thead><tr><th scope="col">Suite</th><th scope="col">Passed</th><th scope="col">Failed</th></tr></thead>
+        <tbody>
+          {% for suite in tests.suites %}
+            <tr>
+              <th scope="row">{{ suite.label }}</th>
+              <td>{{ suite.passed }}</td>
+              <td{% if suite.failed %} class="status-fail-text"{% endif %}>{{ suite.failed }}</td>
+            </tr>
+          {% endfor %}
+          <tr>
+            <th scope="row">Production image</th>
+            <td colspan="2">{{ tests.image ? '✓ Passed' : '! Failed' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="fine-print">
+        Run {{ _self.when(tests.at) }}
+        {% if tests.commit %}on commit <code>{{ tests.commit }}</code>{% endif %}
+      </p>
+      {% if tests.recent %}
+        <p class="status-trend">
+          <span class="sr-only">{{ tests.recentPassed }} of the last {{ tests.recent|length }} test runs passed.</span>
+          {% for run in tests.recent %}
+            <span class="{{ run.ok ? 'status-pass' : 'status-fail' }}" aria-hidden="true">{{ run.ok ? '✓' : '!' }}</span>
+          {% endfor %}
+        </p>
+      {% endif %}
+    {% else %}
+      <p>Test results aren’t available right now.</p>
+    {% endif %}
+  </section>
+
+  <section class="panel status-panel status-wide" aria-labelledby="status-deploys">
+    <h2 id="status-deploys">Recent deployments</h2>
+    {% if report.deployments %}
+      {% set labels = {succeeded: '✓ Succeeded', failed: '! Failed', cancelled: '– Cancelled', running: '… In progress'} %}
+      <table class="status-table">
+        <thead><tr><th scope="col">Started</th><th scope="col">Result</th><th scope="col">Duration</th><th scope="col">Commit</th></tr></thead>
+        <tbody>
+          {% for deploy in report.deployments %}
+            <tr>
+              <th scope="row">{{ _self.when(deploy.at) }}</th>
+              <td>{{ labels[deploy.result] }}</td>
+              <td>{{ deploy.minutes ? deploy.minutes ~ ' min' : '–' }}</td>
+              <td><code>{{ deploy.commit }}</code></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Deployment history isn’t available right now.</p>
+    {% endif %}
+  </section>
+</div>
+<p class="fine-print status-note">Results come from the automated test and deployment pipeline. Details are kept private on purpose.</p>

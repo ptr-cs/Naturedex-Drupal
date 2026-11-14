@@ -1,8 +1,9 @@
 // Serves a disposable copy of the working site for the browser tests, so tests
 // never edit the real database. Run `npm run setup` (or `npm run dev`) first.
 import { spawnSync } from 'node:child_process';
-import { copyFileSync, existsSync, mkdirSync, rmSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { statusFixtures } from './status-fixtures.mjs';
 import { defaultDatabase, drupalTask, isInstalled, runtimeDir, serveDrupal, waitForSite } from '../scripts/runtime.mjs';
 
 const port = Number(process.env.PORT || 4322);
@@ -23,8 +24,15 @@ process.env.NATUREDEX_DB = database;
 // Production's page max-age, so the shared-cache headers are under test.
 process.env.NATUREDEX_PAGE_MAX_AGE = '300';
 process.env.NATUREDEX_CLOUDFRONT = '1';
+// /status reads these instead of GitHub; see tests/status-fixtures.mjs.
+const fixtures = join(testDir, 'status-fixtures');
+mkdirSync(fixtures, { recursive: true });
+for (const [name, body] of Object.entries(statusFixtures)) writeFileSync(join(fixtures, `${name}.json`), JSON.stringify(body));
+process.env.NATUREDEX_STATUS_FIXTURES = fixtures;
 drupalTask(['test-users', join(testDir, 'sign-in-links.json')], { quiet: true });
 drupalTask(['rebuild'], { quiet: true });
+// Production runs cron hourly; the status page checks that it has run lately.
+drupalTask(['cron'], { quiet: true });
 
 const site = serveDrupal(port);
 site.once('exit', (code) => process.exit(code ?? 1));

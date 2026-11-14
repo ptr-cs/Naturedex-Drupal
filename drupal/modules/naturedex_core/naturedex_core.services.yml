@@ -4,10 +4,14 @@ services:
   Drupal\naturedex_core\Records: ~
   Drupal\naturedex_core\PageContext: ~
   Drupal\naturedex_core\Seeder: ~
+  Drupal\naturedex_core\Status: ~
   Drupal\naturedex_core\Routing\RouteSubscriber:
     tags:
       - { name: event_subscriber }
   Drupal\naturedex_core\EventSubscriber\SharedCacheSubscriber:
+    tags:
+      - { name: event_subscriber }
+  Drupal\naturedex_core\EventSubscriber\StatusCacheSubscriber:
     tags:
       - { name: event_subscriber }
   Drupal\naturedex_core\EventSubscriber\HideAccountsSubscriber:

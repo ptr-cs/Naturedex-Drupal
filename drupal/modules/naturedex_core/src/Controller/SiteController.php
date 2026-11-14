@@ -8,10 +8,12 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Access\CsrfRequestHeaderAccessCheck;
 use Drupal\Core\Access\CsrfTokenGenerator;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\naturedex_core\PageContext;
 use Drupal\naturedex_core\Records;
+use Drupal\naturedex_core\Status;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -27,6 +29,8 @@ final class SiteController extends ControllerBase {
     private readonly Records $records,
     private readonly PageContext $pageContext,
     private readonly CsrfTokenGenerator $csrfToken,
+    private readonly Status $status,
+    private readonly KillSwitch $pageCacheKillSwitch,
   ) {}
 
   public function guide(): array {
@@ -80,6 +84,24 @@ final class SiteController extends ControllerBase {
       '#can_publish' => $account->hasPermission('administer node published status'),
       '#account_name' => $account->getDisplayName(),
       '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
+   * Drupal's own page cache ignores max-age and would keep this page until the
+   * next content save, so it is skipped here; StatusCacheSubscriber lets
+   * CloudFront keep it for five minutes instead.
+   */
+  public function status(): array {
+    $this->pageCacheKillSwitch->trigger();
+    return [
+      '#theme' => 'naturedex_status',
+      '#report' => $this->status->report(),
+      '#attached' => [
+        // For people who are given the link, not for search results.
+        'html_head' => [[['#tag' => 'meta', '#attributes' => ['name' => 'robots', 'content' => 'noindex, nofollow']], 'naturedex_status_robots']],
+      ],
+      '#cache' => ['max-age' => $this->status->maxAge()],
     ];
   }
 

@@ -24,6 +24,16 @@ naturedex.journal:
   requirements:
     _permission: 'access content'
 
+# Health of the live site, its tests, and its deployments. See Status for what
+# may appear here and why.
+naturedex.status:
+  path: '/status'
+  defaults:
+    _controller: '\Drupal\naturedex_core\Controller\SiteController::status'
+    _title: 'System status'
+  requirements:
+    _access: 'TRUE'
+
 # Anonymous visitors are sent to sign in by the controller rather than shown a
 # 403, so this route is open and the controller checks the permission.
 naturedex.editor:

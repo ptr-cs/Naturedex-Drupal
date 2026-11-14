@@ -39,6 +39,7 @@ final class NaturedexHooks {
       'naturedex_page' => ['body' => NULL, 'deer' => NULL, 'edit_url' => NULL],
       'naturedex_desk' => ['config' => '', 'species' => [], 'can_publish' => FALSE, 'account_name' => ''],
       'naturedex_error' => ['kind' => 'not_found'],
+      'naturedex_status' => ['report' => []],
       'naturedex_sidebar' => ['items' => [], 'total' => 0],
       'naturedex_topbar' => ['crumb' => ''],
       'naturedex_heading' => ['heading' => []],

@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    # Nightly, so the status page reflects today and not the last push.
+    - cron: '41 9 * * *'
 
 permissions:
   contents: read
@@ -13,6 +16,8 @@ jobs:
     name: Tests
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    outputs:
+      summary: ${{ steps.summary.outputs.json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -33,13 +38,20 @@ jobs:
           # Setup reads FrankenPHP's release metadata from the GitHub API.
           GITHUB_TOKEN: ${{ github.token }}
       - name: Unit tests
-        run: npm test
+        run: npx vitest run --reporter=default --reporter=json --outputFile=reports/unit.json
       - name: Browser tests
         if: ${{ !cancelled() }}
-        run: npx playwright test
+        run: npx playwright test --reporter=list,html,json
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: reports/browser.json
+          PLAYWRIGHT_HTML_OPEN: never
       - name: Infrastructure tests
         if: ${{ !cancelled() }}
-        run: npm --prefix infra test
+        run: npm --prefix infra test -- --reporter=default --reporter=json --outputFile=../reports/infrastructure.json
+      - name: Summarize results
+        id: summary
+        if: ${{ !cancelled() }}
+        run: echo "json=$(node scripts/status-summary.mjs reports)" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: failure()
         with:
@@ -58,3 +70,19 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: docker build -f docker/Dockerfile -t naturedex-drupal:ci .
       - run: docker/smoke-test.sh naturedex-drupal:ci
+
+  publish-status:
+    name: Publish status
+    needs: [test, image]
+    if: ${{ !cancelled() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: node scripts/publish-status.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SUMMARY: ${{ needs.test.outputs.summary }}
+          IMAGE_RESULT: ${{ needs.image.result }}
