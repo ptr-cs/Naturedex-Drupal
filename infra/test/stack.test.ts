@@ -275,6 +275,31 @@ describe('the Naturedex Drupal AWS stack', () => {
     });
   });
 
+  it('rebuilds Drupal’s caches after each release, once the service is stable', () => {
+    const [rebuild] = Object.values(template.findResources('Custom::AWS')) as Record<string, any>[];
+    const create = JSON.stringify(rebuild.Properties.Create);
+    expect(create).toContain('runTask');
+    expect(create).toMatch(/naturedex-task.{0,8}rebuild/);
+    const service = Object.keys(template.findResources('AWS::ECS::Service'))[0];
+    expect(rebuild.DependsOn).toContain(service);
+    // Reruns only when the web task definition changes.
+    const task = Object.keys(template.findResources('AWS::ECS::TaskDefinition')).find((id) => id.startsWith('Task'));
+    expect(create).toContain(task);
+  });
+
+  it('lets the cache rebuild start only the web task, in this cluster', () => {
+    const policies = Object.entries(template.findResources('AWS::IAM::Policy'))
+      .filter(([id]) => id.startsWith('RebuildCaches'))
+      .map(([, policy]) => policy) as Record<string, any>[];
+    expect(policies).toHaveLength(1);
+    const statements = policies.flatMap((policy) => policy.Properties.PolicyDocument.Statement);
+    const runTask = statements.find((statement) => statement.Action === 'ecs:RunTask');
+    expect(runTask.Resource).not.toBe('*');
+    expect(runTask.Condition.ArnEquals['ecs:cluster']).toBeDefined();
+    const passRole = statements.find((statement) => statement.Action === 'iam:PassRole');
+    expect(passRole.Resource).toHaveLength(2);
+  });
+
   it('raises alarms, and subscribes an address only when given one', () => {
     template.resourceCountIs('AWS::CloudWatch::Alarm', 3);
     template.resourceCountIs('AWS::SNS::Subscription', 0);

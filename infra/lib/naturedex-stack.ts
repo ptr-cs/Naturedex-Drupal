@@ -16,6 +16,7 @@ import {
   aws_ec2 as ec2,
   aws_ecr_assets as ecrAssets,
   aws_ecs as ecs,
+  aws_iam as iam,
   aws_elasticloadbalancingv2 as elbv2,
   aws_events as events,
   aws_events_targets as eventTargets,
@@ -30,6 +31,7 @@ import {
   aws_sns_subscriptions as subscriptions,
   aws_wafv2 as wafv2,
 } from 'aws-cdk-lib';
+import * as cr from 'aws-cdk-lib/custom-resources';
 import type { Construct } from 'constructs';
 import { contentSecurityPolicy } from './csp.js';
 
@@ -368,6 +370,53 @@ export class NaturedexStack extends Stack {
         }),
       ],
     });
+
+    // Drupal keeps its router, page, and render caches in the database, so new
+    // code would otherwise be served stale routes and pages. Each release (a
+    // new web task definition) starts a one-off "naturedex-task rebuild" once
+    // the service is stable and the old tasks have stopped. It isn't awaited:
+    // its result is in the task's log stream, and a failure leaves the site up.
+    const rebuildCaches = new cr.AwsCustomResource(this, 'RebuildCaches', {
+      onUpdate: {
+        service: 'ECS',
+        action: 'runTask',
+        parameters: {
+          cluster: cluster.clusterName,
+          taskDefinition: task.taskDefinitionArn,
+          launchType: 'FARGATE',
+          startedBy: 'deploy-cache-rebuild',
+          networkConfiguration: {
+            awsvpcConfiguration: {
+              subnets: vpc.publicSubnets.map((subnet) => subnet.subnetId),
+              securityGroups: [taskSecurityGroup.securityGroupId],
+              assignPublicIp: 'ENABLED',
+            },
+          },
+          overrides: { containerOverrides: [{ name: containerName, command: ['naturedex-task', 'rebuild'] }] },
+        },
+        // A new physical ID per task definition revision is what reruns it.
+        physicalResourceId: cr.PhysicalResourceId.of(task.taskDefinitionArn),
+        // The full response can exceed the custom resource's 4 KB limit.
+        outputPaths: ['tasks.0.taskArn'],
+      },
+      policy: cr.AwsCustomResourcePolicy.fromStatements([
+        new iam.PolicyStatement({
+          actions: ['ecs:RunTask'],
+          resources: [task.taskDefinitionArn],
+          conditions: { ArnEquals: { 'ecs:cluster': cluster.clusterArn } },
+        }),
+        new iam.PolicyStatement({
+          actions: ['iam:PassRole'],
+          resources: [task.taskRole.roleArn, task.obtainExecutionRole().roleArn],
+        }),
+      ]),
+      installLatestAwsSdk: false,
+      logGroup: new logs.LogGroup(this, 'RebuildCachesLogs', {
+        retention: logs.RetentionDays.ONE_MONTH,
+        removalPolicy: RemovalPolicy.DESTROY,
+      }),
+    });
+    rebuildCaches.node.addDependency(service);
 
     this.createAuditLogging(webAcl, props.accountAuditing);
     this.createAlerts(props, targets, loadBalancer, database);

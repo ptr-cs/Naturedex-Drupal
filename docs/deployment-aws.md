@@ -166,6 +166,8 @@ It creates Drupal's database account, installs Drupal into RDS, enables the modu
 
 **Release.** The Deploy workflow builds the image and rolls it out. A new task must pass health checks before the old one stops, and a failing release rolls back automatically.
 
+**Cache rebuild.** Drupal keeps its router, page, and render caches in the database, so a release with new routes or templates would otherwise serve stale pages (a new route would stay a cached 404). Whenever a release changes the web task definition, the stack's `RebuildCaches` custom resource starts a one-off `naturedex-task rebuild` task after the service is stable. CloudFormation doesn't wait for that task to finish; its output is in the web task's log stream (`drupal/drupal/<task id>`), and the custom resource's own log group records the call. The resource may only start the web task definition in this cluster. To rebuild by hand, run the one-off command below.
+
 **Drupal or PHP updates.** Change the image tag in `docker/Dockerfile` and `DRUPAL_VERSION` in `scripts/runtime.mjs`, run `npm run verify`, then deploy. If the release has database updates, run them once as a one-off task (`update.php` is blocked), for example with a temporary `composer require drush/drush && vendor/bin/drush updatedb`. Nothing on the site updates itself; the daily `drupal-security.yml` workflow says when a security release is waiting. Redeploying also rebuilds the image with current OS updates, so redeploy when Debian fixes the image's open CVEs (ECR scans each pushed image).
 
 **One-off commands.** Run the web task definition as a separate task with a different command, for example `naturedex-task rebuild` (clear caches):
