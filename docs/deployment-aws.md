@@ -10,6 +10,10 @@ Run Drupal as one container on ECS Fargate behind CloudFront, with RDS for MySQL
 
 ## Architecture
 
+![AWS architecture diagram](architecture.png)
+
+The diagram's source is [architecture.drawio](architecture.drawio); open it in draw.io (diagrams.net) to edit, then export a PNG at 1.5× scale.
+
 ```
 Visitor ──HTTPS──▶ CloudFront + WAF
                       │  VPC origin (no public load balancer)
