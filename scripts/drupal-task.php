@@ -85,7 +85,9 @@ switch ($task) {
     foreach (['frontpage', 'taxonomy_term', 'glossary', 'archive'] as $view) {
       $container->get('entity_type.manager')->getStorage('view')->load($view)?->disable()->save();
     }
-    $container->get(\Drupal\naturedex_core\SiteCopy::class)->upgrade();
+    foreach ($container->get(\Drupal\naturedex_core\SiteCopy::class)->upgrade() as $line) {
+      echo "$line\n";
+    }
     $counts = $container->get(\Drupal\naturedex_core\Seeder::class)->seed($project . '/data');
     drupal_flush_all_caches();
     $added = array_filter($counts);
@@ -98,8 +100,11 @@ switch ($task) {
     // Runs after every release, so it also adds fields and settings that new
     // code expects (there is no Drush in the image to run update hooks).
     drupal_flush_all_caches();
-    \Drupal::service(\Drupal\naturedex_core\SiteCopy::class)->upgrade();
+    foreach (\Drupal::service(\Drupal\naturedex_core\SiteCopy::class)->upgrade() as $line) {
+      echo "$line\n";
+    }
     drupal_flush_all_caches();
+    echo "Caches rebuilt.\n";
     break;
 
   case 'cron':

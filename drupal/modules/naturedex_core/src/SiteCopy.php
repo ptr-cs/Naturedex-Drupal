@@ -36,9 +36,10 @@ final class SiteCopy {
   /** The page fields this adds, as their config/install names. */
   private const PAGE_FIELDS = ['field_eyebrow', 'field_heading', 'field_intro'];
 
+  /** Version 1 shipped first and could be marked done without filling About. */
   private const STATE_KEY = 'naturedex_core.copy_version';
 
-  private const VERSION = 1;
+  private const VERSION = 2;
 
   public function __construct(
     private readonly ConfigFactoryInterface $configFactory,
@@ -74,22 +75,25 @@ final class SiteCopy {
 
   /**
    * Brings a site installed before editable copy up to date. Safe to run on
-   * every release: it only adds what is missing and never changes an edit.
+   * every release: each step adds only what is missing and never changes an
+   * edit, and the About backfill happens once, after its fields exist.
    *
    * There is no Drush in the image to run update hooks, so the setup and
-   * rebuild tasks call this instead.
+   * rebuild tasks call this instead and print what it reports.
+   *
+   * @return string[] What changed, or why a step was skipped.
    */
-  public function upgrade(): void {
+  public function upgrade(): array {
+    $report = [];
     $config = $this->configFactory->getEditable(self::CONFIG);
     if ($config->isNew()) {
       $config->setData(['langcode' => 'en'] + self::DEFAULTS)->save();
+      $report[] = 'Created the site copy settings.';
     }
     elseif ($config->get('langcode') === NULL) {
       // Translatable values need a language for the settings form to save.
       $config->set('langcode', 'en')->save();
-    }
-    if ((int) $this->state->get(self::STATE_KEY, 0) >= self::VERSION) {
-      return;
+      $report[] = 'Gave the site copy settings a language.';
     }
 
     $install = new FileStorage(dirname(__DIR__) . '/config/install');
@@ -99,40 +103,73 @@ final class SiteCopy {
         $record = $install->read($prefix . $name);
         if ($record && !$storage->load($record['id'])) {
           $storage->createFromStorageRecord($record)->save();
+          $report[] = "Created {$record['id']}.";
         }
       }
     }
 
+    // Adds missing fields to the page form, leaving any rearrangement alone.
     $display = $this->entityTypeManager->getStorage('entity_form_display')->load('node.page.default');
     $wanted = $install->read('core.entity_form_display.node.page.default');
-    if ($display && $wanted) {
-      foreach ($wanted['content'] as $name => $component) {
-        $display->setComponent($name, $component);
+    $missing = $display && $wanted ? array_diff(self::PAGE_FIELDS, array_keys($display->getComponents())) : [];
+    if ($missing) {
+      foreach ($missing as $name) {
+        $display->setComponent($name, $wanted['content'][$name]);
       }
       $display->save();
+      $report[] = 'Added ' . implode(', ', $missing) . ' to the page form.';
     }
 
-    Role::load('editor')?->grantPermission(self::PERMISSION)->save();
+    if ((int) $this->state->get(self::STATE_KEY, 0) < self::VERSION) {
+      $report = array_merge($report, $this->fillAboutHeading());
+    }
+    return $report;
+  }
 
-    // The About page shows the heading it showed before these fields existed.
-    $nodes = $this->entityTypeManager->getStorage('node')->loadByProperties(['type' => 'page', 'field_slug' => 'about']);
-    $about = reset($nodes);
+  /**
+   * Gives the About page the heading it showed before these fields existed,
+   * and grants editors the site copy permission. Runs once, and only counts
+   * as done when the fields are really there.
+   *
+   * @return string[]
+   */
+  private function fillAboutHeading(): array {
+    // Field definitions and nodes loaded before the fields existed are stale.
+    \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+    $nodes = $this->entityTypeManager->getStorage('node');
+    $nodes->resetCache();
+
+    $found = $nodes->loadByProperties(['type' => 'page', 'field_slug' => 'about']);
+    $about = reset($found);
     if ($about instanceof NodeInterface) {
-      $changed = FALSE;
+      $absent = array_filter(array_keys(Seeder::ABOUT_HEADING), static fn (string $name) => !$about->hasField($name));
+      if ($absent) {
+        return ['WARNING: the About page has no ' . implode(', ', $absent) . ' field; will retry next release.'];
+      }
+    }
+
+    $report = [];
+    Role::load('editor')?->grantPermission(self::PERMISSION)->save();
+    if ($about instanceof NodeInterface) {
+      $filled = [];
       foreach (Seeder::ABOUT_HEADING as $name => $value) {
-        if ($about->hasField($name) && $about->get($name)->isEmpty()) {
+        if ($about->get($name)->isEmpty()) {
           $about->set($name, $value);
-          $changed = TRUE;
+          $filled[] = $name;
         }
       }
-      if ($changed) {
+      if ($filled) {
         $about->setNewRevision();
         $about->setRevisionLogMessage('Moved the page heading into editable fields.');
         $about->save();
+        $report[] = 'Filled the About page\'s ' . implode(', ', $filled) . '.';
+      }
+      else {
+        $report[] = 'The About page heading was already filled in; left it as is.';
       }
     }
-
     $this->state->set(self::STATE_KEY, self::VERSION);
+    return $report;
   }
 
 }
