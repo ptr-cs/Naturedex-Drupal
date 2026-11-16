@@ -145,3 +145,13 @@ naturedex.api.regions:
   requirements:
     _permission: 'access content'
     _format: json
+
+# Site-wide wording. Editors have the permission; a page's own heading is
+# edited on the page.
+naturedex.site_copy:
+  path: '/admin/config/content/naturedex-copy'
+  defaults:
+    _form: '\Drupal\naturedex_core\Form\SiteCopyForm'
+    _title: 'Site copy'
+  requirements:
+    _permission: 'edit naturedex site copy'

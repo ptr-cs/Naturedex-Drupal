@@ -34,11 +34,12 @@ final class SidebarBlock extends ShellBlockBase {
       '#theme' => 'naturedex_sidebar',
       '#items' => $items,
       '#total' => count($this->records->species()),
+      '#tagline' => $this->siteCopy->get('tagline'),
     ];
   }
 
   public function getCacheTags(): array {
-    return array_merge(parent::getCacheTags(), ['node_list:species']);
+    return array_merge(parent::getCacheTags(), ['node_list:species'], $this->siteCopy->config()->getCacheTags());
   }
 
 }

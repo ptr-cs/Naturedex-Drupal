@@ -8,6 +8,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\naturedex_core\PageContext;
 use Drupal\naturedex_core\Records;
+use Drupal\naturedex_core\SiteCopy;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -22,12 +23,13 @@ abstract class ShellBlockBase extends BlockBase implements ContainerFactoryPlugi
     $plugin_definition,
     protected readonly PageContext $pageContext,
     protected readonly Records $records,
+    protected readonly SiteCopy $siteCopy,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): static {
-    return new static($configuration, $plugin_id, $plugin_definition, $container->get(PageContext::class), $container->get(Records::class));
+    return new static($configuration, $plugin_id, $plugin_definition, $container->get(PageContext::class), $container->get(Records::class), $container->get(SiteCopy::class));
   }
 
   public function getCacheContexts(): array {

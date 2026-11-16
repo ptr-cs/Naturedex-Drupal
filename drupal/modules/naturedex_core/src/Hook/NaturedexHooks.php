@@ -7,6 +7,7 @@ namespace Drupal\naturedex_core\Hook;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Hook\Attribute\Hook;
@@ -16,6 +17,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\naturedex_core\PageContext;
 use Drupal\naturedex_core\Records;
+use Drupal\naturedex_core\SiteCopy;
 use Drupal\node\NodeInterface;
 
 final class NaturedexHooks {
@@ -27,6 +29,7 @@ final class NaturedexHooks {
     private readonly Records $records,
     private readonly PageContext $pageContext,
     private readonly ThemeManagerInterface $themeManager,
+    private readonly SiteCopy $siteCopy,
   ) {}
 
   #[Hook('theme')]
@@ -40,7 +43,7 @@ final class NaturedexHooks {
       'naturedex_desk' => ['config' => '', 'species' => [], 'can_publish' => FALSE, 'account_name' => ''],
       'naturedex_error' => ['kind' => 'not_found'],
       'naturedex_status' => ['report' => []],
-      'naturedex_sidebar' => ['items' => [], 'total' => 0],
+      'naturedex_sidebar' => ['items' => [], 'total' => 0, 'tagline' => ''],
       'naturedex_topbar' => ['crumb' => ''],
       'naturedex_heading' => ['heading' => []],
       'naturedex_page_bottom' => ['data' => ''],
@@ -177,7 +180,17 @@ final class NaturedexHooks {
     $node = $this->pageContext->node();
     $variables['naturedex_description'] = $node?->bundle() === 'field_note'
       ? (string) $node->get('field_excerpt')->value
-      : 'A little curiosity. A whole wild world. Explore Virginia’s wildlife, keep a field collection, and read field notes in Naturedex.';
+      : $this->siteCopy->get('meta_description');
+    CacheableMetadata::createFromRenderArray($variables)->addCacheableDependency($this->siteCopy->config())->applyTo($variables);
+  }
+
+  #[Hook('preprocess_page')]
+  public function preprocessPage(array &$variables): void {
+    if (!$this->isSiteTheme()) {
+      return;
+    }
+    $variables['footer_motto'] = $this->siteCopy->get('footer_motto');
+    CacheableMetadata::createFromRenderArray($variables)->addCacheableDependency($this->siteCopy->config())->applyTo($variables);
   }
 
   private function isSiteTheme(): bool {

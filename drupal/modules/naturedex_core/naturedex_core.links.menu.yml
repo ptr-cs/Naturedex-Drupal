@@ -1,0 +1,5 @@
+naturedex.site_copy:
+  title: 'Site copy'
+  description: 'The sidebar tagline, footer line, and default search description.'
+  route_name: naturedex.site_copy
+  parent: system.admin_config_content

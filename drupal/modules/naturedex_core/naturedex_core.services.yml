@@ -4,6 +4,7 @@ services:
   Drupal\naturedex_core\Records: ~
   Drupal\naturedex_core\PageContext: ~
   Drupal\naturedex_core\Seeder: ~
+  Drupal\naturedex_core\SiteCopy: ~
   Drupal\naturedex_core\Status: ~
   Drupal\naturedex_core\Routing\RouteSubscriber:
     tags:

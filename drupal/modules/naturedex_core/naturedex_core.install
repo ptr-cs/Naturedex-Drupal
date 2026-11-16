@@ -58,6 +58,7 @@ function naturedex_core_install(bool $is_syncing): void {
         'delete any species content',
         'view species revisions',
         'edit any page content',
+        'edit naturedex site copy',
         'view page revisions',
         'use text format field_note_text',
         'view the administration theme',

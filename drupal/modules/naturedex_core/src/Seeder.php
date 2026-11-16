@@ -19,6 +19,13 @@ final class Seeder {
 
   private const STATE_KEY = 'naturedex_core.seeded';
 
+  /** The About page's heading, set when the page is created. Editors change it on the page. */
+  public const ABOUT_HEADING = [
+    'field_eyebrow' => 'A FIELD GUIDE, WITH A LITTLE NOSTALGIA',
+    'field_heading' => 'Made for the curious.',
+    'field_intro' => 'An original, pocket-sized guide to the animals that make Virginia home.',
+  ];
+
   /** @var array<string, true> */
   private array $seeded = [];
 
@@ -68,7 +75,7 @@ final class Seeder {
         'field_slug' => 'about',
         'field_body' => ['value' => trim((string) file_get_contents($about)), 'format' => 'field_note_text'],
         'status' => 1,
-      ]);
+      ] + self::ABOUT_HEADING);
     }
     $this->state->set(self::STATE_KEY, array_keys($this->seeded));
     return $this->counts;

@@ -118,3 +118,59 @@ test('generic Drupal listings and term pages are closed to visitors', async ({ b
     expect((await guest.page.goto(path))?.status(), path).toBe(404);
   await guest.context.close();
 });
+
+test('editors change site copy and the About heading in Drupal, and visitors see it', async ({ page, browser }) => {
+  let guest = await visitor(browser);
+  // Warm the page cache first, so the test proves the cache is cleared.
+  await guest.page.goto('/about');
+  await expect(guest.page.getByRole('heading', { level: 1, name: 'Made for the curious.' })).toBeVisible();
+  await expect(guest.page.locator('.sidebar-bottom p')).toHaveText(/^A little curiosity\.\s*A whole wild world\.$/);
+
+  const copy = async (tagline: string, footer: string) => {
+    await page.goto('/admin/config/content/naturedex-copy');
+    await page.getByLabel('Sidebar tagline').fill(tagline);
+    await page.getByLabel('Footer line').fill(footer);
+    await page.getByRole('button', { name: 'Save configuration' }).click();
+    await expect(page.getByRole('contentinfo', { name: 'Status message' })).toContainText('saved');
+  };
+  const heading = async (eyebrow: string, title: string, intro: string) => {
+    await page.goto('/about');
+    await page.getByRole('link', { name: 'Edit this page in Drupal' }).click();
+    await page.getByLabel('Eyebrow', { exact: true }).fill(eyebrow);
+    await page.getByLabel('Heading', { exact: true }).fill(title);
+    await page.getByLabel('Introduction', { exact: true }).fill(intro);
+    await page.getByRole('button', { name: 'Save', exact: true }).click();
+    await expect(page.locator('[data-drupal-messages], .messages')).toContainText(/has been updated/);
+  };
+
+  await copy('Look closer.\nListen longer.', 'Leave the trail better.');
+  await heading('A NEW EYEBROW', 'Edited in Drupal.', 'An introduction from the page.');
+  try {
+    await guest.context.close();
+    guest = await visitor(browser);
+    await guest.page.goto('/about');
+    await expect(guest.page.getByRole('heading', { level: 1, name: 'Edited in Drupal.' })).toBeVisible();
+    await expect(guest.page.locator('.page-heading .eyebrow')).toContainText('A NEW EYEBROW');
+    await expect(guest.page.locator('.page-description')).toHaveText('An introduction from the page.');
+    expect(await guest.page.locator('.sidebar-bottom p').innerHTML()).toMatch(/^Look closer\.<br>\s*Listen longer\.$/);
+    await expect(guest.page.locator('.page-footer')).toContainText('Leave the trail better.');
+    // Other pages share the site copy.
+    await guest.page.goto('/map');
+    await expect(guest.page.locator('.page-footer')).toContainText('Leave the trail better.');
+  } finally {
+    await copy('A little curiosity.\nA whole wild world.', 'Take only memories. Leave only footprints.');
+    await heading(
+      'A FIELD GUIDE, WITH A LITTLE NOSTALGIA',
+      'Made for the curious.',
+      'An original, pocket-sized guide to the animals that make Virginia home.',
+    );
+    await guest.context.close();
+  }
+});
+
+test('visitors cannot open the site copy form', async ({ browser }) => {
+  const guest = await visitor(browser);
+  const response = await guest.page.goto('/admin/config/content/naturedex-copy');
+  expect(response?.status()).toBe(403);
+  await guest.context.close();
+});

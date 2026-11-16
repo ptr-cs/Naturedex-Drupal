@@ -40,8 +40,11 @@ Open **http://127.0.0.1:4321**. The first start downloads Drupal 11.4.11 and a p
 | Species | `species` node type: dex number, scientific name, ranges, references (link field), sprite |
 | Animal groups, regions | Vocabularies; region terms hold their ID, map position, short name, and color |
 | Field notes | `field_note` node type with an excerpt, a category term, and related species (entity references) |
-| About | `page` node |
+| About | `page` node: body, plus optional eyebrow, heading (blank uses the title), and introduction fields |
+| Sidebar tagline, footer line, default search description | `naturedex_core.site_copy` configuration, edited at **Configuration → Content authoring → Site copy** (`/admin/config/content/naturedex-copy`); editors have the permission |
 | Addresses | Each node's path alias follows its slug: `/species/…`, `/journal/…`, `/about` |
+
+Layout, navigation, sprites, and map positions stay in code. The image has no Drush to run update hooks, so the `rebuild` task that follows each release also runs `SiteCopy::upgrade()`: it adds missing fields and settings, and gives the About page the heading it showed before, without changing anything already edited.
 
 Slugs are validated by a constraint plugin (format and uniqueness within the bundle), so Drupal's node form and the Writing desk enforce the same rules. Related species are entity references, so renaming a species or changing its ID cannot break a link.
 

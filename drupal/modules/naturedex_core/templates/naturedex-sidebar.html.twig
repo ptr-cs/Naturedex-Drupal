@@ -6,6 +6,7 @@
  * Available variables:
  * - items: Navigation entries with label, url, icon, active, and route.
  * - total: The number of published species.
+ * - tagline: Site copy; each line break starts a new line.
  */
 #}
 {% import '@naturedex_core/naturedex-macros.html.twig' as nd %}
@@ -44,7 +45,7 @@
 </div>
 <div class="sidebar-bottom">
   <div class="little-grass" aria-hidden="true">♧ ♧ ♧</div>
-  <p>A little curiosity.<br>A whole wild world.</p>
+  <p>{{ tagline|nl2br }}</p>
   <a href="/about">{{ nd.icon('info', 15) }} About this field guide</a>
   <a href="/status">{{ nd.icon('check', 15) }} System status</a>
   <span class="local-indicator"><span></span>POWERED BY DRUPAL</span>

@@ -46,13 +46,6 @@ final class PageContext {
       'description' => 'Turn an observation into a story. Save a draft, then publish when you’re ready.',
       'stamp' => '',
     ],
-    'about' => [
-      'crumb' => 'ABOUT',
-      'eyebrow' => 'A FIELD GUIDE, WITH A LITTLE NOSTALGIA',
-      'title' => 'Made for the curious.',
-      'description' => 'An original, pocket-sized guide to the animals that make Virginia home.',
-      'stamp' => 'globe',
-    ],
     'status' => [
       'crumb' => 'SYSTEM STATUS',
       'eyebrow' => 'BEHIND THE SCENES',
@@ -136,7 +129,9 @@ final class PageContext {
       'journal' => self::JOURNAL,
       'article' => ['title' => $title, 'stamp' => ''] + self::JOURNAL,
       'species' => ['crumb' => 'FIELD GUIDE', 'eyebrow' => 'A FIELD GUIDE ENTRY', 'title' => $title, 'description' => '', 'stamp' => ''],
-      'page' => ['crumb' => 'FIELD GUIDE', 'eyebrow' => 'NATUREDEX', 'title' => $title, 'description' => '', 'stamp' => ''],
+      // A page's eyebrow, heading, and introduction are fields on the page.
+      'about' => ['crumb' => 'ABOUT', 'stamp' => 'globe'] + SiteCopy::pageHeading($this->node()),
+      'page' => ['crumb' => 'FIELD GUIDE', 'stamp' => ''] + ($this->node() ? SiteCopy::pageHeading($this->node()) : ['eyebrow' => 'NATUREDEX', 'title' => $title, 'description' => '']),
       default => self::HEADINGS[$view],
     };
   }

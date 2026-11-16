@@ -9,7 +9,8 @@
  *                          if it is not installed yet. The admin password comes
  *                          from NATUREDEX_ADMIN_PASSWORD.
  *   setup                  Enable the module and themes, then add missing seeds.
- *   rebuild                Clear every cache.
+ *   rebuild                Add fields and settings a release needs, then
+ *                          clear every cache. Runs after each release.
  *   cron                   Run Drupal's scheduled work.
  *   test-users <file>      Create the browser-test accounts; write sign-in links.
  */
@@ -84,6 +85,7 @@ switch ($task) {
     foreach (['frontpage', 'taxonomy_term', 'glossary', 'archive'] as $view) {
       $container->get('entity_type.manager')->getStorage('view')->load($view)?->disable()->save();
     }
+    $container->get(\Drupal\naturedex_core\SiteCopy::class)->upgrade();
     $counts = $container->get(\Drupal\naturedex_core\Seeder::class)->seed($project . '/data');
     drupal_flush_all_caches();
     $added = array_filter($counts);
@@ -93,6 +95,10 @@ switch ($task) {
     break;
 
   case 'rebuild':
+    // Runs after every release, so it also adds fields and settings that new
+    // code expects (there is no Drush in the image to run update hooks).
+    drupal_flush_all_caches();
+    \Drupal::service(\Drupal\naturedex_core\SiteCopy::class)->upgrade();
     drupal_flush_all_caches();
     break;
 

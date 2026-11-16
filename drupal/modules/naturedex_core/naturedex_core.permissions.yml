@@ -1,3 +1,7 @@
 use naturedex writing desk:
   title: 'Use the Writing desk'
   description: 'Open /editor and write field notes through its API. What each person may edit, delete, or publish still follows their node permissions.'
+
+edit naturedex site copy:
+  title: 'Edit site copy'
+  description: 'Change the sidebar tagline, footer line, and default search description.'

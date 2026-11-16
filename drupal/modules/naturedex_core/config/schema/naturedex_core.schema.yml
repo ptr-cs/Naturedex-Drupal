@@ -1,0 +1,13 @@
+naturedex_core.site_copy:
+  type: config_object
+  label: 'Naturedex site copy'
+  mapping:
+    tagline:
+      type: text
+      label: 'Sidebar tagline'
+    footer_motto:
+      type: label
+      label: 'Footer line'
+    meta_description:
+      type: text
+      label: 'Default search description'
