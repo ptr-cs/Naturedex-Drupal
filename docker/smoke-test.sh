@@ -112,9 +112,11 @@ expect /user/1 404
 expect /user/99999 404
 contains / 'Meet your wild neighbors'
 contains /api/naturedex/regions 'Blue Ridge'
-count=$(curl -s "$base/api/naturedex/species" | grep -o '"dexNumber"' | wc -l)
-[ "$count" -eq 24 ] || fail "expected 24 species, got $count"
-echo 'ok   24 species'
+# Every seeded species, counted from the seed data rather than a fixed number.
+seeded=$(grep -o '"dexNumber"' "$(dirname "$0")/../data/species.json" | wc -l | tr -d ' ')
+count=$(curl -s "$base/api/naturedex/species" | grep -o '"dexNumber"' | wc -l | tr -d ' ')
+[ "$count" -eq "$seeded" ] || fail "expected $seeded species, got $count"
+echo "ok   $count species"
 
 curl -sI "$base/" | grep -qi 's-maxage=300' || fail 'public pages must be cacheable by CloudFront'
 curl -sI "$base/" | grep -qi 'max-age=0' || fail 'browsers must revalidate public pages'
