@@ -437,5 +437,144 @@
         }
       ]
     ]
+  },
+  {
+    "id": "eastern-fence-lizard",
+    "description": "The long tail tip lifts a pixel, then the lizard blinks.",
+    "duration": 5.3,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [0, 21, 6, 22],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [0, 21, 6, 22],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "blink",
+          "bounds": [39, 17, 40, 18],
+          "color": "#8c7f66"
+        },
+        {
+          "type": "paint",
+          "bounds": [39, 18, 40, 18],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "american-toad",
+    "description": "The pale throat pulses, then the raised eye briefly closes.",
+    "duration": 3.6,
+    "sequence": [0, 1, 0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "paint",
+          "bounds": [31, 25, 34, 26],
+          "color": "#f1e7cb"
+        }
+      ],
+      [
+        {
+          "type": "blink",
+          "bounds": [27, 17, 30, 19],
+          "color": "#9a6b45"
+        },
+        {
+          "type": "paint",
+          "bounds": [27, 19, 30, 19],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "striped-bass",
+    "description": "The forked tail beats while the spiny dorsal fin flexes.",
+    "duration": 1.6,
+    "sequence": [0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [40, 15, 45, 30],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "move",
+          "bounds": [20, 15, 26, 17],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [40, 15, 45, 30],
+          "dx": 0,
+          "dy": 1
+        },
+        {
+          "type": "move",
+          "bounds": [20, 15, 26, 17],
+          "dx": 0,
+          "dy": 1
+        }
+      ]
+    ]
+  },
+  {
+    "id": "common-eastern-firefly",
+    "description": "The wings beat back and forth while sparks drift from the glowing lantern.",
+    "duration": 1.2,
+    "sequence": [0, 1, 0, 2],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [19, 9, 42, 16],
+          "dx": -1,
+          "dy": 0
+        },
+        {
+          "type": "move",
+          "bounds": [0, 20, 4, 22],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [19, 9, 42, 16],
+          "dx": 1,
+          "dy": 0
+        },
+        {
+          "type": "move",
+          "bounds": [0, 20, 4, 22],
+          "dx": 1,
+          "dy": -2
+        }
+      ]
+    ]
   }
 ]

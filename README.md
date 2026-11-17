@@ -1,6 +1,6 @@
 # Naturedex — Drupal edition
 
-A Virginia wildlife field guide with an original Game Boy Advance–inspired look: 24 animated pixel-art animals, a linked region map, a personal discovery collection, and a field journal.
+A Virginia wildlife field guide with an original Game Boy Advance–inspired look: 32 animated pixel-art animals, a linked region map, a personal discovery collection, and a field journal.
 
 This is the Drupal implementation of [Naturedex](../Naturedex), built for comparison with the original (Astro/React with a headless Drupal blog) and the [WordPress](../Naturedex-WordPress) and [Contentstack](../Naturedex-Contentstack) editions. It reuses their species data, journal posts, sprites, CSS, and test scenarios. Here **Drupal owns everything**: the content model, every page, sign-in, and editorial permissions. The frontend is Twig templates plus the same small, framework-free TypeScript as the WordPress edition.
 

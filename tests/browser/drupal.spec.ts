@@ -1,4 +1,7 @@
+import { readFileSync } from 'node:fs';
 import { expect, test, type Browser, type Page } from '@playwright/test';
+
+const speciesCount = (JSON.parse(readFileSync(new URL('../../data/species.json', import.meta.url), 'utf8')) as unknown[]).length;
 
 /** A visitor with no session, so pages come from Drupal's page cache. */
 async function visitor(browser: Browser) {
@@ -45,7 +48,7 @@ test('an unpublished species leaves public pages and returns intact when republi
   try {
     await editSpecies(page, 'monarch', () => published.uncheck());
     await guest.page.goto('/');
-    await expect(guest.page.getByText('23 entries')).toBeVisible();
+    await expect(guest.page.getByText(`${speciesCount - 1} entries`)).toBeVisible();
     await expect(guest.page.getByRole('button', { name: 'View Monarch Butterfly', exact: true })).toHaveCount(0);
     expect((await guest.page.goto('/species/monarch'))?.status()).toBe(403);
     // The field note that mentions it keeps its other animals.

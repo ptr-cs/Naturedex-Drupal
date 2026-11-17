@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { expect, request as playwrightRequest, test, type APIRequestContext } from '@playwright/test';
 
 const api = '/api/naturedex';
@@ -178,7 +179,7 @@ test('field note bodies are stored as typed and rendered without running HTML', 
 
 test('species and regions are public JSON', async ({ request }) => {
   const species = await (await request.get(`${api}/species`)).json();
-  expect(species).toHaveLength(24);
+  expect(species).toHaveLength(JSON.parse(readFileSync(new URL('../../data/species.json', import.meta.url), 'utf8')).length);
   expect(species[0]).toMatchObject({ id: 'white-tailed-deer', dexNumber: 1, url: '/species/white-tailed-deer' });
   const regions = await (await request.get(`${api}/regions`)).json();
   expect(regions.map((region: { id: string }) => region.id)).toEqual(['mountains', 'valley', 'piedmont', 'coastal']);

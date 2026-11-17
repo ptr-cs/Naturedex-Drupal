@@ -454,5 +454,157 @@
         }
       ]
     ]
+  },
+  {
+    "id": "eastern-gray-squirrel",
+    "description": "The curled tip of the bushy tail flicks upward, then the squirrel blinks.",
+    "duration": 4.8,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [0, 13, 7, 17],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [0, 13, 7, 17],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "blink",
+          "bounds": [37, 21, 38, 22],
+          "color": "#8f918a"
+        },
+        {
+          "type": "paint",
+          "bounds": [37, 22, 38, 22],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "raccoon",
+    "description": "The ringed tail lifts a pixel and one ear twitches.",
+    "duration": 5.4,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [0, 24, 10, 28],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [0, 24, 10, 28],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "move",
+          "bounds": [29, 12, 32, 13],
+          "dx": 0,
+          "dy": 1
+        }
+      ]
+    ]
+  },
+  {
+    "id": "eastern-bluebird",
+    "description": "The blue tail feathers flick upward and the bird blinks.",
+    "duration": 5,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "move",
+          "bounds": [9, 32, 16, 36],
+          "dx": 0,
+          "dy": -1
+        }
+      ],
+      [
+        {
+          "type": "move",
+          "bounds": [9, 32, 16, 36],
+          "dx": 0,
+          "dy": -1
+        },
+        {
+          "type": "blink",
+          "bounds": [29, 15, 30, 16],
+          "color": "#5b8fd0"
+        },
+        {
+          "type": "paint",
+          "bounds": [29, 16, 30, 16],
+          "color": "#26302a"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "barred-owl",
+    "description": "Both dark eyes half close, then shut in a slow daytime blink.",
+    "duration": 6.2,
+    "sequence": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0
+    ],
+    "frames": [
+      [],
+      [
+        {
+          "type": "paint",
+          "bounds": [16, 13, 19, 13],
+          "color": "#e6dcc4"
+        },
+        {
+          "type": "paint",
+          "bounds": [28, 13, 31, 13],
+          "color": "#e6dcc4"
+        }
+      ],
+      [
+        {
+          "type": "blink",
+          "bounds": [16, 13, 19, 15],
+          "color": "#e6dcc4"
+        },
+        {
+          "type": "blink",
+          "bounds": [28, 13, 31, 15],
+          "color": "#e6dcc4"
+        },
+        {
+          "type": "paint",
+          "bounds": [16, 15, 19, 15],
+          "color": "#26302a"
+        },
+        {
+          "type": "paint",
+          "bounds": [28, 15, 31, 15],
+          "color": "#26302a"
+        }
+      ]
+    ]
   }
 ]
