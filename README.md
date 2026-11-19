@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-Open **http://127.0.0.1:4321**. The first start downloads Drupal 11.4.11 and a project-local [FrankenPHP](https://frankenphp.dev) binary (checked against its published SHA-256), installs Drupal on SQLite, and imports the seed content. That takes under a minute.
+Open **http://127.0.0.1:4321**. The first start downloads Drupal 11.4.13 and a project-local [FrankenPHP](https://frankenphp.dev) binary (checked against its published SHA-256), installs Drupal on SQLite, and imports the seed content. That takes under a minute.
 
 - Sign in at `/user/login` as `admin`. The generated password is in `.runtime/admin-password`.
 - The Writing desk is at `/editor`; Drupal's own admin is at `/admin/content`.

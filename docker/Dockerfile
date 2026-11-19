@@ -10,7 +10,7 @@ COPY scripts/build-frontend.mjs scripts/
 COPY frontend frontend
 RUN node scripts/build-frontend.mjs
 
-FROM drupal:11.4.11-php8.5-apache-trixie
+FROM drupal:11.4.13-php8.5-apache-trixie
 # The base image only gets OS fixes when it's republished, so apply them here.
 # Rebuilding picks up new ones.
 RUN apt-get update \

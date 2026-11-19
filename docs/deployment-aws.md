@@ -21,7 +21,7 @@ Visitor ──HTTPS──▶ CloudFront + WAF
           Internal Application Load Balancer
                       │
                       ▼
-          ECS Fargate task (Apache, PHP 8.5, Drupal 11.4.11)
+          ECS Fargate task (Apache, PHP 8.5, Drupal 11.4.13)
                       │
                       ▼
               RDS MySQL 8.4 (TLS required and verified)
@@ -33,7 +33,7 @@ Everything is one stack, `NaturedexDrupal`, in **us-east-1**, the only region wh
 
 | Decision | Choice | Why |
 | --- | --- | --- |
-| Image | Official `drupal:11.4.11-php8.5-apache-trixie`, plus the module, theme, built assets, and seed data | Same Drupal and PHP minor version as the local tests. Code is immutable in the image |
+| Image | Official `drupal:11.4.13-php8.5-apache-trixie`, plus the module, theme, built assets, and seed data | Same Drupal and PHP minor version as the local tests. Code is immutable in the image |
 | Compute | Fargate, 0.5 vCPU, 1 GB, ARM, one task | No servers to patch, and a task can be replaced at any time |
 | Database | RDS MySQL 8.4, `db.t4g.micro`, Single-AZ | Drupal's most common production database. Multi-AZ would double the cost |
 | Files | None shared | Drupal stores content, sessions, and caches in the database. CSS/JS aggregates and compiled templates are rebuilt by each task on demand. This removes the WordPress edition's EFS and its backups |

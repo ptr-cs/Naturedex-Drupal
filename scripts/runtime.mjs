@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const DRUPAL_VERSION = '11.4.11';
+export const DRUPAL_VERSION = '11.4.13';
 export const root = fileURLToPath(new URL('../', import.meta.url));
 export const runtimeDir = join(root, '.runtime');
 export const drupalDir = join(runtimeDir, `drupal-${DRUPAL_VERSION}`);
