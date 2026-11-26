@@ -79,7 +79,7 @@ The last row needs a known cookie name. Drupal normally names the session cookie
 - There is no ECS Exec, so nobody can open a shell in the running site. One-off commands run as separate tasks.
 - Sessions: the cookie ends when the browser closes, and Drupal forgets a session after 12 idle hours (core keeps both for 23 days).
 - Less fingerprinting: no `X-Generator` header; core's `CHANGELOG.txt`, `INSTALL.txt`, and readmes return 403; `/user/1` and a missing account both return 404, so accounts can't be counted.
-- Deploys need approval: the Deploy workflow runs in the `production` GitHub environment, which requires a reviewer and allows only `main`, and the AWS role trusts only that environment's tokens. A branch ruleset blocks force-pushes to and deletion of `main`. Dependabot alerts and security updates are on.
+- Deploys need approval: the Deploy workflow runs in the `production` GitHub environment, which requires a reviewer and allows only `main`, and the AWS role trusts only that environment's tokens. A branch ruleset blocks force-pushes to and deletion of `main`. Dependabot alerts and security updates were on while the site was hosted, and were turned off when it was shut down.
 - A daily workflow (`drupal-security.yml`) fails, and so emails the repository owner, when the pinned Drupal release is marked insecure, a newer security release exists on its branch, or the branch loses support.
 - Tasks can reach only HTTPS and the database outbound.
 - Security headers, including the CSP, are sent by CloudFront. A browser test loads public pages under that exact CSP.
